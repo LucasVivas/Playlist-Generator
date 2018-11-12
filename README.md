@@ -1,4 +1,6 @@
-# User Stories
+# Playlist Generator
+
+Site web de génération de playlist.
 
 ### Définitions
 
@@ -29,7 +31,7 @@ utilisateur peut soumettre une playlist accessible par les autres utilisateurs.
 
 ### Planification
 
-Difficulté totale : TODO
+Difficulté totale : 23
 
 #### Répartition des issues
 
