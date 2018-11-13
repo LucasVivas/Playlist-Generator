@@ -1,30 +1,37 @@
 const express = require('express');
-const http = require('http');
+//const ejs = require('ejs');
+const morgan = require('morgan'); //to use the log of all the request
+const cors = require('cors'); //for cross origin
+
+const rootdir = '/home/node/app/'
 
 const app = express();
 
-var server = http.createServer();
+app.use(cors());
+app.use(morgan('combined'));
 
 app.get('/', function(req, res) {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.send('bonjour');
+    res.sendFile('./index.html', {
+        root: rootdir
+    });
 });
 
-// server.on('request', function(req, res) {
-//     res.statusCode = 200;
-//     res.setHeader('Content-Type', 'text/plain');
-//     res.end('Salut tout le monde !');
-// });
+app.get('/users', function(req, res) {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.send('nothing');
+});
 
-// server.on('listen', function() {
-//     console.log('Server started!');
-// })
-//
-// server.listen(8080);
+app.get('/user/:firstname/:lastname', function(req, res) {
+    res.send('Bonjour utilisateur ' + req.params.firstname + ' ' + req.params.lastname);
+});
 
-app.on('listen', function() {
-    console.log('Server started!');
-})
+app.use(function(req, res, next) {
+    res.status(404).send('Page introuvable !');
+});
 
-app.listen(8080);
+app.listen(8080, function() {
+    console.log('Example app listening on port 8080!');
+});
