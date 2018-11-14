@@ -7,7 +7,7 @@ MAINTAINER Lucas Vivas
 RUN mkdir -p /home/node/app/
 WORKDIR /home/node/app/
 
-COPY ./app/*  ./
+COPY ./src/*  ./
 
 RUN npm init -y
 RUN npm install express --save
