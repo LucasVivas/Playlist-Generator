@@ -10,3 +10,23 @@ services:
             - NODE_ENV=production
         ports:
             - 8080:8080
+        links:
+            - mysql
+    mysql:
+        container_name: mysql
+        build: ./docker/mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            TZ: 'Europe/Paris'
+      # Permettre l'authentication facile pour utiliser phpMyAdmin
+      #   Serveur: mysql
+      #   Utilisateur: root
+      #   Pas de mdp
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        ports:
+            - 8082:3306
+        volumes:
+            - mysql:/var/lib/mysql
+volumes:
+    mysql:    
