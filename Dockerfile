@@ -1,6 +1,4 @@
-ARG VERSION=10
-
-FROM node:$VERSION
+FROM node:10
 
 MAINTAINER Lucas Vivas
 
