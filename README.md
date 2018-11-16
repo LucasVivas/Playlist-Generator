@@ -1,5 +1,7 @@
 # Playlist Generator
 
+[![Build Status](https://travis-ci.org/LucasVivas/Playlist-Generator.svg?branch=master)](https://travis-ci.org/LucasVivas/Playlist-Generator)
+
 Site web de génération de playlist.
 
 ### Définitions
