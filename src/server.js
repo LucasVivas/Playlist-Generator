@@ -13,9 +13,10 @@ app.use(morgan('combined'));
 app.get('/', function(req, res) {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.sendFile('./index.html', {
-        root: rootdir
-    });
+    // res.sendFile('./index.html', {
+    //     root: rootdir
+    // });
+    res.send('bonsoir toi');
 });
 
 app.get('/users', function(req, res) {
@@ -32,6 +33,6 @@ app.use(function(req, res, next) {
     res.status(404).send('Page introuvable !');
 });
 
-app.listen(8080, function() {
+app.listen(process.env.PORT || 8080, function() {
     console.log('Example app listening on port 8080!');
 });
