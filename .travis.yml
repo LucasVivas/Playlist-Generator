@@ -1,0 +1,9 @@
+sudo: required
+
+language: 
+
+services:
+    - docker
+
+before_install:
+    - make
