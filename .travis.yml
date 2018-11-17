@@ -1,9 +1,19 @@
 sudo: required
 
-language: 
+language: node_js
+
+node_js:
+    - "6"
 
 services:
     - docker
 
 before_install:
-    - make
+    - sudo apt-get update
+    - sudo apt-get --yes install docker-ce
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: 065bb45b-06f1-4c44-807b-e65c8fe0dcb9
+  app: infinite-hamlet-22492
