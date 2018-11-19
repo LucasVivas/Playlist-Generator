@@ -12,6 +12,9 @@ before_install:
     - sudo apt-get update
     - sudo apt-get --yes install docker-ce
 
+script:
+    - npm test
+
 deploy:
   provider: heroku
   api_key:
