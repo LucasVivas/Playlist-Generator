@@ -3,7 +3,7 @@ const express = require('express');
 const morgan = require('morgan'); //to use the log of all the request
 const cors = require('cors'); //for cross origin
 
-const rootdir = '/home/node/app/'
+const rootdir = '/home/node/app/';
 
 const app = express();
 
