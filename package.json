@@ -4,8 +4,7 @@
   "author": "AlexCasanova LucasVivas",
   "version": "0.0.1",
   "devDependencies": {
-    "jshint": "^2.6.0",
-    "esversion": "6"
+    "jshint": "^2.6.0"
   },
   "scripts": {
     "test": "jshint src/server.js"

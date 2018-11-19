@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 const express = require('express');
 //const ejs = require('ejs');
 const morgan = require('morgan'); //to use the log of all the request
