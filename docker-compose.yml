@@ -1,7 +1,7 @@
 version: "2"
 services:
     node:
-        container_name: projet-web
+        container_name: projet-web-api
         build: .
         restart: always
         user: "node"
@@ -11,6 +11,14 @@ services:
             - 8080:8080
         links:
             - mysql
+    angular:
+        container_name: projet-web-client
+        build: ./docker/angular
+        restart: always
+        volumes:
+            - ./docker/angular/mything:/home/node/app
+        ports:
+            - 4200:4200
     mysql:
         container_name: mysql
         build: ./docker/mysql
