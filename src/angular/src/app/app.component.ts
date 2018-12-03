@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'Playlist-Generator';
   music1: Track = {
-    id: 1,
+    id: 1;
     name: "casaOnTheBeach";
     artist: "alexTheBoss";
     album: "SoupeSpacial";
