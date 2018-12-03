@@ -9,6 +9,21 @@ const rootdir = '/home/node/app/';
 
 const app = express();
 
+// var pg = require('pg');
+// var db = pg.connect('postgres://root:root@postgresql:5432/mydb');
+
+const {
+    Client
+} = require('pg')
+const client = new Client()
+
+client.connect()
+
+client.query('SELECT $1::text as message', ['Hello world!'], (err, res) => {
+    console.log(err ? err.stack : res.rows[0].message) // Hello World!
+    client.end()
+})
+
 app.use(cors());
 app.use(morgan('combined'));
 

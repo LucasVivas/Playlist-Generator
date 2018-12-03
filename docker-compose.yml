@@ -7,10 +7,17 @@ services:
         user: "node"
         environment:
             - NODE_ENV=production
+            - PGUSER=root
+            - PGPASSWORD=root
+            - PGDATABASE=mydb
+            - PGPORT=5432
+            - PGHOST=postgresql
         ports:
             - 8080:8080
+        depends_on:
+            - postgresql
         links:
-            - mysql
+            - postgresql
     angular:
         container_name: projet-web-client
         build: ./src/angular
@@ -20,21 +27,21 @@ services:
             - /home/node/app/node_modules
         ports:
             - 4200:4200
-    mysql:
-        container_name: mysql
+    postgresql:
+        container_name: postgresql
         build: ./src/mysql
-        command: --default-authentication-plugin=mysql_native_password
         restart: always
         environment:
-            TZ: 'Europe/Paris'
-      # Permettre l'authentication facile pour utiliser phpMyAdmin
-      #   Serveur: mysql
-      #   Utilisateur: root
-      #   Pas de mdp
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: mydb
+
+        #   Serveur: mysql
+        #   Utilisateur: root
+        #   mdp: root
         ports:
-            - 8082:3306
-        volumes:
-            - mysql:/var/lib/mysql
+            - 5432:5432
+        # volumes:
+        #     - mysql:/var/lib/mysql
 volumes:
     mysql:

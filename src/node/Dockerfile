@@ -12,6 +12,7 @@ RUN npm install express
 RUN npm install morgan
 RUN npm install cors
 RUN npm install jshint
+RUN npm install pg
 
 EXPOSE $PORT
 CMD npm run start
