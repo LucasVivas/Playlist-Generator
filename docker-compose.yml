@@ -17,6 +17,7 @@ services:
         restart: always
         volumes:
             - ./docker/angular:/home/node/app
+            - /home/node/app/node_modules
         ports:
             - 4200:4200
     mysql:
