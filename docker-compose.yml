@@ -2,7 +2,7 @@ version: "2"
 services:
     node:
         container_name: projet-web-api
-        build: ./docker/node
+        build: ./src/node
         restart: always
         user: "node"
         environment:
@@ -13,16 +13,16 @@ services:
             - mysql
     angular:
         container_name: projet-web-client
-        build: ./docker/angular
+        build: ./src/angular
         restart: always
         volumes:
-            - ./docker/angular:/home/node/app
+            - ./src/angular:/home/node/app
             - /home/node/app/node_modules
         ports:
             - 4200:4200
     mysql:
         container_name: mysql
-        build: ./docker/mysql
+        build: ./src/mysql
         command: --default-authentication-plugin=mysql_native_password
         restart: always
         environment:
