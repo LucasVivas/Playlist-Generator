@@ -2,7 +2,7 @@ version: "2"
 services:
     node:
         container_name: projet-web-api
-        build: .
+        build: ./docker/node
         restart: always
         user: "node"
         environment:
