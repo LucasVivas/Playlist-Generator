@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
+
+.btn-primary {
+    background-color: #176AE6;
+    border-radius: 35px 35px 35px 35px;
+    text-transform: uppercase;
+}
