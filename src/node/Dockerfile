@@ -8,11 +8,7 @@ WORKDIR /home/node/app/
 COPY .  ./
 
 RUN npm init -y
-RUN npm install express
-RUN npm install morgan
-RUN npm install cors
-RUN npm install jshint
-RUN npm install pg
+RUN npm install express morgan cors pg jshint
 
 EXPOSE $PORT
 CMD npm run start
