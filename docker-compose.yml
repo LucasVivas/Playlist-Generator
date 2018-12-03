@@ -16,7 +16,7 @@ services:
         build: ./docker/angular
         restart: always
         volumes:
-            - ./docker/angular/mything:/home/node/app
+            - ./docker/angular:/home/node/app
         ports:
             - 4200:4200
     mysql:
