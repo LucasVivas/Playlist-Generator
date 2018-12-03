@@ -8,6 +8,7 @@
 
 # dependencies
 /node_modules
+src/angular/node_modules
 
 # IDEs and editors
 /.idea
