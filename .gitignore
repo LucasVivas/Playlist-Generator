@@ -9,6 +9,7 @@
 # dependencies
 /node_modules
 src/angular/node_modules
+src/postgresql/data
 
 # IDEs and editors
 /.idea
