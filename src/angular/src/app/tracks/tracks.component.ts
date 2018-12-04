@@ -7,12 +7,12 @@ import { Track } from '../track';
   styleUrls: ['./tracks.component.css']
 })
 export class TracksComponent implements OnInit {
-    music1: Track = {
-    id: 1,
-    name: "casaOnTheBeach",
-    artist: "alexTheBoss",
-    album: "SoupeSpacial"
-    }
+  music1: Track = {
+  id: 1,
+  name: "casaOnTheBeach",
+  artist: "alexTheBoss",
+  album: "SoupeSpacial"
+  }
 
   constructor() { }
 
