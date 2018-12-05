@@ -22,7 +22,7 @@ client.connect();
 client.query('SELECT $1::text as message', ['Connection successful with postgresql!'], (err, res) => {
     console.log(err ? err.stack : res.rows[0].message);
     client.end();
-})
+});
 
 
 app.use(cors());

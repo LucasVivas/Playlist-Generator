@@ -19,6 +19,7 @@ services:
             - 8080:8080
         links:
             - postgresql
+        #check if postgresql is ready
         healthcheck:
             test: ["CMD", "curl", "-f", "postgresql:5432"]
             interval: 30s
