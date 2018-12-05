@@ -4,6 +4,10 @@
 
 Site web de génération de playlist.
 
+### Get Started
+docker-compose up --build
+
+
 ### Définitions
 
 **Visiteur** représente une personne accédant au site internet sans avoir créé
@@ -23,7 +27,7 @@ utilisateur peut soumettre une playlist accessible par les autres utilisateurs.
 | 1 | En tant que **visiteur**, je veux créer un compte sur l'application en paramétrant mes identifiants de connexion tels que mon nom d'utilisateur et mon mot de passe, ou bien en utilisant mes identifiants de connexion Facebook afin de me connecter. Un lien redirigeant vers la création d'un compte utilisateur sera présent dès la page d'accueil de l'application. Les identifiants (*Nom d'utilisateur*, *Mot de passe* et *Adresse mail*) seront à saisir dans un formulaire, ou bien il suffira de cliquer sur un bouton "Sign up with Facebook" sur ladite page pour créer un compte.| MEDIUM | 2 |
 | 2 | En tant qu'**utilisateur**, je veux me connecter à l'application à l'aide de mes identifiants de connexion afin de gérer mes playlists.| MEDIUM | 2 |
 | 11 | En tant qu'**utilisateur**, je veux me connecter à l'application à l'aide de mes identifiants de connexion de Spotify afin de pouvoir écouter mes playlists.
-| 3 | En tant qu'**utilisateur**, je veux me déconnecter de l'application à tout moment afin de fermer ma session en appuyant sur le bouton "Déconnexion" situé en haut à droite de la page, et une fois déconnecté je suis redirige vers la page de connexion.| MEDIUM | 1 | 
+| 3 | En tant qu'**utilisateur**, je veux me déconnecter de l'application à tout moment afin de fermer ma session en appuyant sur le bouton "Déconnexion" situé en haut à droite de la page, et une fois déconnecté je suis redirige vers la page de connexion.| MEDIUM | 1 |
 | 4 | En tant qu'**utilisateur**, je veux ajouter une musique (id) à une playlist. Nous aurons un bouton "Add" à côté d'une playlist permettant d'être redirigé vers une barre de recherche permettant de chercher et d'ajouter une musique à cette playlist.| HIGH | 3 |
 | 5 | En tant qu'**utilisateur**, je veux supprimer une musique d'une playlist. Le bouton "Modify" à côté d'une playlist permettra, en plus de modifier le nom de la playlist, de sélectionner une ou plusieurs musiques puis de les supprimer de la playlist en créer sur la bouton "Delete" en bas du formulaire de modification de playlist.| HIGH | 3 |
 | 6 | En tant qu'**utilisateur**, je veux consulter la liste des playlists disponibles sur le site afin de choisir mon programme musical du moment. Chaque playlist sera listé dans l'ordre de leur création, en comptant les playlists générées de base par l'application regroupant quelques styles musicaux précis, et sera affichées selon la forme (*Nom de la playlist*, *Description de la playlist*, *Date de création de la playlist*).| HIGH | 3 |
