@@ -2,24 +2,28 @@
 
 const express = require('express');
 //const ejs = require('ejs');
-const morgan = require('morgan'); //to use the log of all the request
-const cors = require('cors'); //for cross origin
+//to use the log of all the request
+const morgan = require('morgan');
+//for cross origin
+const cors = require('cors');
 
 const rootdir = '/home/node/app/';
 
 const app = express();
 
+//create a client to connect to postgresql
 const {
     Client
-} = require('pg')
-const client = new Client()
+} = require('pg');
+const client = new Client();
 
-client.connect()
+client.connect();
 
 client.query('SELECT $1::text as message', ['Connection successful with postgresql!'], (err, res) => {
-    console.log(err ? err.stack : res.rows[0].message)
-    client.end()
+    console.log(err ? err.stack : res.rows[0].message);
+    client.end();
 })
+
 
 app.use(cors());
 app.use(morgan('combined'));
@@ -27,9 +31,6 @@ app.use(morgan('combined'));
 app.get('/', function(req, res) {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    // res.sendFile('./index.html', {
-    //     root: rootdir
-    // });
     res.send('bonsoir toi');
 });
 

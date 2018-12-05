@@ -12,6 +12,9 @@ services:
             - PGDATABASE=mydb
             - PGPORT=5432
             - PGHOST=postgresql
+        volumes:
+            - "./src/node/server.js:/home/node/app/server.js"
+            - "/home/node/app/node_modules"
         ports:
             - 8080:8080
         links:
@@ -27,25 +30,20 @@ services:
         build: ./src/angular
         restart: always
         volumes:
-            - ./src/angular:/home/node/app
-            - /home/node/app/node_modules
+            - "./src/angular:/home/node/app"
+            - "/home/node/app/node_modules"
         ports:
             - 4200:4200
     postgresql:
         container_name: postgresql
-        build: ./src/mysql
+        build: ./src/postgresql
         restart: always
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: root
             POSTGRES_DB: mydb
-
-        #   Serveur: mysql
-        #   Utilisateur: root
-        #   mdp: root
         ports:
             - 5432:5432
-        # volumes:
-        #     - mysql:/var/lib/mysql
-volumes:
-    mysql:
+        volumes:
+            - "./src/postgresql/data:/var/lib/postgresql/data"
+    # install phppgadmin
