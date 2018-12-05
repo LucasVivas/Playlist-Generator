@@ -9,7 +9,7 @@ services:
             - NODE_ENV=production
             - PGUSER=root
             - PGPASSWORD=root
-            - PGDATABASE=mydb
+            - PGDATABASE=playlistdb
             - PGPORT=5432
             - PGHOST=postgresql
         volumes:
@@ -41,9 +41,21 @@ services:
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: root
-            POSTGRES_DB: mydb
+            POSTGRES_DB: playlistdb
         ports:
             - 5432:5432
         volumes:
             - "./src/postgresql/data:/var/lib/postgresql/data"
-    # install phppgadmin
+    pgadmin:
+        container_name: pgadmin
+        image: fenglc/pgadmin4:latest
+        restart: always
+        ports:
+            - 5050:5050
+        environment:
+            - MAIL_SERVER=postgresql
+            - MAIL_PORT=5432
+            - DEFAULT_USER=root
+            - DEFAULT_PASSWORD=root
+        links:
+            - postgresql
