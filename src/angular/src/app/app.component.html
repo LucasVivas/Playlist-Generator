@@ -1,6 +1,16 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}
-  </h1>
-</div>
-<app-tracks></app-tracks>
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+
+<app-layout>
+
+  <div class="jumbotron" style="text-align:center">
+    <h1>Welcome to {{ title }}</h1>
+    <p>
+      Create and listen to your own playlists
+    </p>
+  </div>
+  <app-tracks></app-tracks>
+</app-layout>

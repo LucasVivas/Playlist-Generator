@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { TracksComponent } from './tracks/tracks.component';
+import { UiModule } from './ui/ui.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { TracksComponent } from './tracks/tracks.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    UiModule
   ],
   providers: [],
   bootstrap: [AppComponent]
