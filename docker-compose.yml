@@ -19,11 +19,11 @@ services:
             - 8080:8080
         links:
             - postgresql
-        # healthcheck:
-        #     test: ["CMD", "curl", "-f", "postgresql:5432"]
-        #     interval: 30s
-        #     timeout: 10s
-        #     retries: 5
+        healthcheck:
+            test: ["CMD", "curl", "-f", "postgresql:5432"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
 
     angular:
         container_name: projet-web-client
