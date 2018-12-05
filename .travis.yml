@@ -3,7 +3,7 @@ sudo: required
 language: node_js
 
 node_js:
-    - "6"
+    - "10"
 
 services:
     - docker
@@ -17,6 +17,6 @@ script:
 
 deploy:
   provider: heroku
-  api_key:
-    secure: 065bb45b-06f1-4c44-807b-e65c8fe0dcb9
-  app: infinite-hamlet-22492
+  # api_key:
+  #   secure: 065bb45b-06f1-4c44-807b-e65c8fe0dcb9
+  # app: infinite-hamlet-22492
