@@ -2,7 +2,9 @@ version: "3"
 services:
     node:
         container_name: projet-web-api
-        build: ./src/node
+        build:
+            context: ./src/node
+            dockerfile: Dockerfile.node
         restart: always
         user: "node"
         environment:
@@ -28,7 +30,9 @@ services:
 
     angular:
         container_name: projet-web-client
-        build: ./src/angular
+        build:
+            context: ./src/angular
+            dockerfile: Dockerfile.angular
         restart: always
         volumes:
             - "./src/angular:/home/node/app"
@@ -37,7 +41,9 @@ services:
             - 4200:4200
     postgresql:
         container_name: postgresql
-        build: ./src/postgresql
+        build:
+            context: ./src/postgresql
+            dockerfile: Dockerfile.postgres
         restart: always
         environment:
             POSTGRES_USER: root
@@ -45,8 +51,8 @@ services:
             POSTGRES_DB: playlistdb
         ports:
             - 5432:5432
-        volumes:
-            - "./src/postgresql/data:/var/lib/postgresql/data"
+        # volumes:
+        #     - "./src/postgresql/data:/var/lib/postgresql/data"
     pgadmin:
         container_name: pgadmin
         image: fenglc/pgadmin4:latest
