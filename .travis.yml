@@ -1,22 +1,15 @@
 sudo: required
-
 language: node_js
-
 node_js:
-    - "10"
-
+- '10'
 services:
-    - docker
-
+- docker
 before_install:
-    - sudo apt-get update
-    - sudo apt-get --yes install docker-ce
-
+- sudo apt-get update
+- sudo apt-get --yes install docker-ce
 script:
-    - npm test
-
-# deploy:
-#   provider: heroku
-  # api_key:
-  #   secure: 065bb45b-06f1-4c44-807b-e65c8fe0dcb9
-  # app: infinite-hamlet-22492
+- npm test
+deploy:
+  api_key:
+    secure: MWRW4qwFbSSfSQ+Af5SsV795TYzYDeyz1nPcmB5KyIiObVScSh+cVCHsj/r/+rCim1HxQnACYRpnXflspOnZTljZurMbamisY2kXiR35YS2tRXZeQr8dUqJI/YhIrlUPUuolMOFlLIKxUWVqHXcDNO9nzuU1titxdn3ZVJ6q6RgmJpKb8o+wtmeP8VRn0of2gfX41RqHoIzy4AI7R9kY+6zV63LnmU1I7TW5EEhzFxDfOop5Iq+zbVgTfSkGYnpBD7r75G+vsTcLnGYQIHauWULwpHX1W48XoMlQWWlG94Ow882dA41gP4lU7ducnuBMAbQg96ArMk8EXmuOxyRG9QgJ/ISvKLai/U8agYX9JRqhVaoJPrQOifYSmq4qVSrtLw+cmRtVGan8c1Vv4fIDs9ZoWpqvvbg3pH1lgnDIE/T5K2P3qQoXVQvwg/j2KAMtpOiDN6U6O45R94/mih22X0nUQEDUHIHeJSKeG/LPCXtztqKc18M7pq8njuoagxBo4HNUFneELn7/1pWtQJUKV67ukmmbzzOuMyZqUQH9AGMb2FZtXgHLM/9VQyQOvBsh5yHJFPtH86oZacCE+XL/IpgIJekE7IUXY+HSQBpsvxuIKQvGypAdO/s6/DrzDWo4pe/YMf8m3vBfUUJ0BoqvCZP25PDcC7zZBSY4rOu5cos=
+  app: playlistgeneratorm2gl
