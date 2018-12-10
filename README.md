@@ -38,14 +38,12 @@ utilisateur peut soumettre une playlist accessible par les autres utilisateurs.
 
 ### Planification
 
-Difficulté totale : 19
+Difficulté totale : 23
 
 #### Répartition des issues
 
-| Sprint ID | User stories à réaliser | Difficulté du sprint |
-|-----------|-------------------------|----------------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| Sprint ID | User stories à réaliser | Difficulté du sprint | Date début | Date fin |
+|-----------|-------------------------|----------------------|------------|----------|
+| 1 | 5 - 6 - 7 - 9 - 10 | 8 | 10/12 | 21/12 |
+| 2 | 1 - 2 - 4 - 8      | 8 | 24/12 | 04/01 |
+| 3 | 3 - 11             | 7 | 07/01 | 17/01 |
