@@ -29,8 +29,8 @@ utilisateur peut soumettre une playlist accessible par les autres utilisateurs.
 | 3 | En tant qu'**utilisateur**, je veux me connecter à l'application à l'aide de mes identifiants de connexion de Spotify afin de pouvoir écouter mes playlists.| LOW | 2 |
 | 4 | En tant qu'**utilisateur**, je veux me déconnecter de l'application à tout moment en appuyant sur le bouton "Déconnexion" situé en haut à droite de la page, et une fois déconnecté je suis redirige vers la page de connexion.| MEDIUM | 1 |
 | 5 | En tant qu'**utilisateur**, je veux ajouter une musique (id) à une playlist. Nous aurons un bouton "Add" à côté d'une playlist permettant d'être redirigé vers une barre de recherche permettant de chercher et d'ajouter une musique à cette playlist.| HIGH | 3 |
-| 6 | En tant qu'**utilisateur**, je veux supprimer une musique à une playlist. Nous aurons un bouton "Supprimer" à côté d'une musique permettant de supprimer cette musique de la playlist.| HIGH | 3 |
-| 7 | En tant qu'**utilisateur**, je veux modifier une playlist. Le bouton "Modify" à côté d'une playlist permettra de modifier le nom de la playlist ainsi que la description de la playlist.| HIGH | 3 |
+| 6 | En tant qu'**utilisateur**, je veux supprimer une musique à une playlist. Nous aurons un bouton "Supprimer" à côté d'une musique permettant de supprimer cette musique de la playlist.| HIGH | 1 |
+| 7 | En tant qu'**utilisateur**, je veux modifier une playlist. Le bouton "Modify" à côté d'une playlist permettra de modifier le nom de la playlist ainsi que la description de la playlist.| HIGH | 1 |
 | 8 | En tant qu'**utilisateur**, je veux consulter la liste de mes playlists. Les playlists seront listé dans l'ordre de leur création, en comptant les playlists générées de base par l'application regroupant quelques styles musicaux précis, et sera affichées selon la forme (*Nom de la playlist*, *Description de la playlist*).| HIGH | 3 |
 | 9 | En tant qu'**utilisateur**, je veux créer une playlist sur l'application. Sur la page de l'application au dessus de la liste des playlists disponible sera situé un bouton nous redirigeant vers le formulaire de création d'une playlist. Ce formulaire comportera un champ pour le nom de la playlist, et la définition de celle-ci.| HIGH | 2 |
 | 10 | En tant qu'**utilisateur**, je veux supprimer une playlist que j'ai créée afin de l'enlever de ma liste de playlists. Cette option se trouvera à côté de la playlist à supprimer par un bouton "Delete", qui une fois cliqué ouvrira une fenêtre pop-up de demande de confirmation avant de supprimer définitivement la playlist.| HIGH | 1 |
@@ -38,7 +38,7 @@ utilisateur peut soumettre une playlist accessible par les autres utilisateurs.
 
 ### Planification
 
-Difficulté totale : 23
+Difficulté totale : 19
 
 #### Répartition des issues
 
