@@ -1,10 +1,10 @@
 sudo: required
 addons:
-  apt:
-    packages:
-    - docker-ce
   sonarcloud:
     organization: alexcasanova-github
+    token:
+      secure: "T/uBkaR43iT6pmxxRvlNGQ2WE0Fdn2f3++Rh2Uzn5cFm9udkSGwcgUUVPdowWPpfNfGUDXxheZZpWY3zeJcp3vtps9YtCaTJO7/pDFUBg/Ncr4Ys/bOBLyvDejke2pgShRPBMbuexj7nwIhDP7+Q0YCkRyAe2+bVZh2RuRyTrKUQaUU41apUiLW7UuSZDZ47U3NCvZGDck1KrIR8shJTKHrWkh5WAgNpL3B262uyZk16ubiGfqL/vGqekJIP05Rfcjx+ZVCTdncHG2y7Wy0vP4HjGpK3FUuIUKL5xy8bH20+Q8kpLrYKp6CwGuaqzRbprLuah0hG9e83tG9EZM6pitMICA4yjzOL1Dl71KQ3zla0Vg49kn5zRAGSd1fLQUy/PJegIUmQ/NG5XosXucKASluxlh0NKI+zUUDUu98QDvx8DTccavSvfcxwel7h0MSUhMRFu7jAw7OjuSrDihtcayuNA+IB3roTq6u/OMYlAuZEMxjLM4YC9q/IQa/smUByzAdHkAmc85gwY5oa8dF+7CXxo+o70JYGvZElVeAp1T9uP85aMc90d1gdbtgM1v4SxVwJGF499gjYAuZXwE1gyB1qblzvjDf++vnFj8Zf5iiK/JZPj6K6LdUSBgZP6L9pGpLf4Q12aVYwyLsXD1JVTZbGfLpr/BbgL4YNNpj1DbY="
+dist: trusty
 language: node_js
 node_js:
 - '10'
@@ -14,6 +14,7 @@ before_install:
 - sudo apt-get update
 - sudo apt-get --yes install docker-ce
 script:
+- sonar-scanner
 - npm test
 deploy:
   provider: heroku

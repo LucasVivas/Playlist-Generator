@@ -1,6 +1,8 @@
 # Playlist Generator
 
 [![Build Status](https://travis-ci.org/LucasVivas/Playlist-Generator.svg?branch=master)](https://travis-ci.org/LucasVivas/Playlist-Generator)
+[![Sonar Bugs](https://sonarcloud.io/api/project_badges/measure?project=AlexCasanova_Playlist-Generator&metric=bugs)](https://sonarcloud.io/dashboard?id=AlexCasanova_Playlist-Generator)
+[![Sonar CS](https://sonarcloud.io/api/project_badges/measure?project=AlexCasanova_Playlist-Generator&metric=code_smells)](https://sonarcloud.io/dashboard?id=AlexCasanova_Playlist-Generator)
 
 Site web de génération de playlist.
 
