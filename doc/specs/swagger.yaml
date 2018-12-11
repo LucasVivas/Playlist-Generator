@@ -15,11 +15,11 @@ paths:
         - playlist
       summary: Get all the playlists
       description: Return a json list of all the playlists in the database.
-      operationId: loginUser
+      operationId: GetAllPlaylist
       produces:
         - application/json
       responses:
-        default:
+        '200':
           description: successful operation
           schema:
             $ref: '#/definitions/Track'
@@ -28,7 +28,7 @@ paths:
         - playlist
       summary: Delete all playlists
       description: Delete every playlist in the database
-      operationId: deleteUsers
+      operationId: deleteAllUser
       responses:
         '200':
           description: successful operation.
@@ -38,7 +38,7 @@ paths:
         - playlist
       summary: Create playlist
       description: Add a new playlist in the database.
-      operationId: createUser
+      operationId: createPlaylist
       consumes:
         - application/json
       parameters:
@@ -47,7 +47,7 @@ paths:
           description: Created playlist object
           required: true
           schema:
-            $ref: '#/definitions/Track'
+            $ref: '#/definitions/Playlist'
       responses:
         '201':
           description: successful operation - the playlist is created.
@@ -58,38 +58,38 @@ paths:
       tags:
         - playlist
       summary: Get a playlist
-      description: Return a json list of all the playlists in the database.
-      operationId: loginplaylist
+      description: Return a json object of the playlist.
+      operationId: getPlaylist
       produces:
         - application/json
       parameters:
         - name: playlist_id
           in: path
-          description: The firstname that needs to be updated
+          description: The playlist\'s ID where you want to find the track.
           required: true
-          type: string
+          type: number
       responses:
         default:
           description: successful operation
           schema:
-            $ref: '#/definitions/Track'
+            $ref: '#/definitions/Playlist'
     post:
       tags:
         - playlist
       summary: Add a track to a playlist
       description: This can only be done if a playlist with the given name already exists.
-      operationId: updateUser
+      operationId: addTrack
       produces:
         - application/json
       parameters:
         - name: playlist_id
           in: path
-          description: The firstname that needs to be updated
+          description: The playlist\'s ID where you want to find the track.
           required: true
-          type: string
+          type: number
         - in: body
           name: body
-          description: Updated playlist object
+          description: Updated track object
           required: true
           schema:
             $ref: '#/definitions/Track'
@@ -97,7 +97,7 @@ paths:
         '200':
           description: successful operation
         '404':
-          description: User that needs to be updated is not found
+          description: Playlist that needs to be updated is not found
         '409':
           description: Conflict - the playlist already exists.
     put:
@@ -105,45 +105,42 @@ paths:
         - playlist
       summary: Updated playlist
       description: This can only be done if a playlist with the given name already exists.
-      operationId: update
+      operationId: updatePlaylist
       produces:
         - application/json
       parameters:
         - name: playlist_id
           in: path
-          description: The firstname that needs to be updated
+          description: The playlist\'s ID where you want to find the track.
           required: true
-          type: string
-        - name: track_id
-          in: path
-          description: The firstname that needs to be updated
-          required: true
-          type: string
+          type: number
         - in: body
           name: body
           description: Updated playlist object
           required: true
           schema:
-            $ref: '#/definitions/Track'
+            $ref: '#/definitions/Playlist'
       responses:
         '200':
           description: successful operation.
         '404':
-          description: User that needs to be deleted is not found
+          description: User that needs to be deleted is not found.
+        '409':
+          description: Conflict - the playlist already exists.
     delete:
       tags:
         - playlist
       summary: Delete a playlist
-      description: This can only be done a playlist with the given name already exists.
-      operationId: deleteUser
+      description: Delete a playlist
+      operationId: deletePlaylist
       produces:
         - application/json
       parameters:
         - name: playlist_id
           in: path
-          description: The name that needs to be deleted
+          description: The playlist\'s ID where you want to find the track.
           required: true
-          type: string
+          type: number
       responses:
         '200':
           description: successful operation.
@@ -171,65 +168,67 @@ paths:
           type: number
       responses:
         '200':
-          description: successful operation
+          description: Successful operation
           schema:
             $ref: '#/definitions/Track'
         '404':
-          description: the track\'s ID or playlist\'s ID not found or invalid.
+          description: The track\'s ID or playlist\'s ID not found or invalid.
     put:
       tags:
         - playlist
       summary: Updated a track in a playlist
-      description: This can only be done if a playlist with the given name already exists.
+      description: Update a track in the playlist.
       operationId: updateTrack
       produces:
         - application/json
       parameters:
         - name: playlist_id
           in: path
-          description: The firstname that needs to be updated
+          description: The playlist\'s ID where you want to find the track.
           required: true
-          type: string
+          type: number
         - name: track_id
           in: path
-          description: The firstname that needs to be updated
+          description: The track\'s ID into the playlist.
           required: true
-          type: string
+          type: number
         - in: body
           name: body
-          description: Updated playlist object
+          description: Updated track.
           required: true
           schema:
             $ref: '#/definitions/Track'
       responses:
         '200':
-          description: successful operation.
+          description: Successful operation.
         '404':
-          description: User that needs to be deleted is not found
+          description: The track\'s ID or playlist\'s ID not found or invalid.
+        '409':
+          description: Conflict - the track already exists.
     delete:
       tags:
         - playlist
       summary: Delete a track in a playlist
-      description: This can only be done a playlist with the given name already exists.
+      description: Delete a track in a playlist.
       operationId: deleteTrack
       produces:
         - application/json
       parameters:
         - name: playlist_id
           in: path
-          description: The name that needs to be deleted
+          description: The playlist\'s ID where you want to find the track.
           required: true
-          type: string
+          type: number
         - name: track_id
           in: path
-          description: The firstname that needs to be updated
+          description: The track\'s ID into the playlist.
           required: true
-          type: string
+          type: number
       responses:
         '200':
-          description: successful operation
+          description: Successful operation.
         '404':
-          description: User that needs to be updated is not found
+          description: The track\'s ID or playlist\'s ID not found or invalid.
 definitions:
   Track:
     type: object
