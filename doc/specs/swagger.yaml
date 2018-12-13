@@ -235,6 +235,8 @@ definitions:
     properties:
       id:
         type: integer
+      spotify_id:
+        type: string
   Playlist:
     type: object
     properties:
