@@ -9,6 +9,8 @@ Site web de génération de playlist.
 ### Get Started
 docker-compose up --build
 
+### Doc
+Doc API : http://lucas.vivas.emi.u-bordeaux.fr/
 
 ### Définitions
 
