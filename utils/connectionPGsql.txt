@@ -1,0 +1,8 @@
+PG admin :
+- add new server :
+    - general :
+        - name : whatever
+    - Connection :
+        - hostname: postgresql
+        -port: 5432
+        - username/password: root/root
