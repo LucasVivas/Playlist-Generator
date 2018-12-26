@@ -33,11 +33,7 @@ async function pgQuery(text) {
     await client.connect();
     try {
         result = await client.query(text);
-        console.log("-------RESULT--------");
-        console.log(result);
     } catch (err) {
-        console.log("-------ERROR--------");
-        console.log(err.code);
         throw parseInt(err.code);
     } finally {
         await client.end();
@@ -70,8 +66,42 @@ app.post('/playlist', async function(req, res) {
  */
 
 app.get('/playlist/:playlist_id', async function(req, res) {
-    // SELECT id, name, description
-    // FROM public."Playlists" WHERE id=?;
+    let playlist_id = req.params.playlist_id;
+    let responseBody = {};
+
+    let PG_request_playlist = 'SELECT name, description \
+    FROM public."Playlists" WHERE id=\'' + playlist_id + '\';';
+
+    let result;
+    try {
+        result = await pgQuery(PG_request_playlist);
+    } catch (errCode) {
+        console.log("Error code : " + errCode);
+
+    }
+
+    let PG_request_tracks = 'SELECT name, artist, album \
+    FROM public."Tracks", public."Playlist_tracks" \
+    WHERE playlist_id = \'' + playlist_id + '\'';
+
+    let anotherResult;
+    try {
+        anotherResult = await pgQuery(PG_request_tracks);
+    } catch (errCode) {
+        console.log("Error code : " + errCode);
+    }
+
+    if (result.rows.length === 0) {
+        res.status(404);
+        responseBody.error = 'Playlist does not exist';
+    } else {
+        res.status(200);
+        responseBody = result.rows[0];
+        responseBody.tracks = anotherResult.rows;
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(responseBody);
 });
 
 
@@ -97,8 +127,13 @@ app.post('/playlist/:playlist_id', async function(req, res) {
     album = \'' + body.album + '\' \
     AND NOT EXISTS (SELECT 1 FROM cte);';
 
-    let result = await pgQuery(PG_request_insert);
-    // TODO: check result
+    let result;
+    try {
+        result = await pgQuery(PG_request_insert);
+    } catch (e) {
+        console.log("Error code : " + e);
+    }
+
     track_id = result.rows[0].result;
 
     let PG_request_link =
@@ -107,19 +142,23 @@ app.post('/playlist/:playlist_id', async function(req, res) {
 
     try {
         await pgQuery(PG_request_link);
-    } catch (code) {
-        switch (code) {
+    } catch (errCode) {
+        switch (errCode) {
             case 23503:
                 console.log("23503 - Foreign key conflict");
                 res.status(404);
-                responseBody = "Playlist not found";
+                responseBody = {
+                    'error': "Playlist not found"
+                };
                 break;
             case 23505:
                 console.log("23505 - Unique conflict");
                 res.status(409);
-                responseBody = "Track already in the playlist";
+                responseBody = {
+                    'error': "Track already in the playlist"
+                };
             default:
-                console.log('default');
+                console.log('default ' + errCode);
         }
     }
 
@@ -127,7 +166,42 @@ app.post('/playlist/:playlist_id', async function(req, res) {
 });
 
 app.put('/playlist/:playlist_id', async function(req, res) {
+    let playlist_id = req.params.playlist_id;
+    let newPlaylist = req.body;
 
+    let responseBody = {};
+
+    let PG_request_check = 'SELECT name, description \
+	FROM public."Playlists" \
+	WHERE name = \'' + newPlaylist.name + '\';';
+
+    let result;
+    try {
+        result = await pgQuery(PG_request_check);
+    } catch (errCode) {
+        console.log("Error code : " + errCode);
+    }
+
+    if (result.rows.length === 0) {
+        let PG_request = 'UPDATE public."Playlists" \
+	       SET name=\'' + newPlaylist.name + '\', description=\'' + newPlaylist.description + '\' \
+	          WHERE id=\'' + playlist_id + '\' RETURNING name, description;';
+
+        try {
+            result = await pgQuery(PG_request);
+        } catch (errCode) {
+            console.log('Error code  : ' + errCode);
+        }
+
+        if (result.rows.length === 0) {
+            res.status(404);
+            responseBody.error = "Playlist n \°" + playlist_id + " does not found";
+        }
+    } else {
+        res.status(409);
+        responseBody.error = "Playlist named : " + newPlaylist.name + " already exist";
+    }
+    res.send(responseBody);
 });
 
 app.delete('/playlist/:playlist_id', async function(req, res) {
