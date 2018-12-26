@@ -33,10 +33,12 @@ async function pgQuery(text) {
     await client.connect();
     try {
         result = await client.query(text);
+        console.log("-------RESULT--------");
         console.log(result);
     } catch (err) {
-        console.log("---------------");
-        console.log(err.stack);
+        console.log("-------ERROR--------");
+        console.log(err.code);
+        throw parseInt(err.code);
     } finally {
         await client.end();
     }
@@ -79,22 +81,49 @@ app.post('/playlist/:playlist_id', async function(req, res) {
     let body = req.body;
     let track_id = -1;
 
-    let PG_request_insert = 'INSERT INTO public."Tracks"(name, artist, album) \
-            VALUES(\'' + body.name + '\', \'' + body.artist + '\', \'' + body.album + '\') \
-                ON CONFLICT DO NOTHING RETURNING id';
+    let responseBody = body;
 
+    let PG_request_insert = '    WITH cte AS( \
+        INSERT INTO public."Tracks"(name, artist, album) \
+        VALUES(\'' + body.name + '\', \'' + body.artist + '\', \'' + body.album + '\') \
+        ON CONFLICT DO NOTHING RETURNING id \
+    ) \
+    SELECT NULL AS result \
+    WHERE EXISTS(SELECT 1 FROM cte) \
+    UNION ALL \
+    SELECT id \
+    FROM public."Tracks" \
+    WHERE name = \'' + body.name + '\' AND artist = \'' + body.artist + '\' AND \
+    album = \'' + body.album + '\' \
+    AND NOT EXISTS (SELECT 1 FROM cte);';
 
     let result = await pgQuery(PG_request_insert);
     // TODO: check result
-    track_id = result.rows[0].id;
+    track_id = result.rows[0].result;
 
     let PG_request_link =
         'INSERT INTO public.\"Playlist_tracks\"(playlist_id, track_id) \
     VALUES (' + playlist_id + ' , ' + track_id + ');';
 
-    await pgQuery(PG_request_link);
+    try {
+        await pgQuery(PG_request_link);
+    } catch (code) {
+        switch (code) {
+            case 23503:
+                console.log("23503 - Foreign key conflict");
+                res.status(404);
+                responseBody = "Playlist not found";
+                break;
+            case 23505:
+                console.log("23505 - Unique conflict");
+                res.status(409);
+                responseBody = "Track already in the playlist";
+            default:
+                console.log('default');
+        }
+    }
 
-    res.send(body);
+    res.send(responseBody);
 });
 
 app.put('/playlist/:playlist_id', async function(req, res) {
