@@ -99,7 +99,7 @@ paths:
         '404':
           description: Playlist that needs to be updated is not found
         '409':
-          description: Conflict - the playlist already exists.
+          description: Conflict - the track already exists into the playlist.
     put:
       tags:
         - playlist
