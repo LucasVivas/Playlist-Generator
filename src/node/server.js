@@ -27,6 +27,12 @@ const {
     });
 }
 
+/*
+ * Create a client to connect to the database and run a query and throw the
+ * error code if there is an error and return the result of the query if it
+ * passed.
+ */
+
 async function pgQuery(text) {
     let client = new Client();
     var result;
@@ -41,17 +47,32 @@ async function pgQuery(text) {
     return result;
 }
 
-async function playlistExist(name) {
-    let PG_request_check = 'SELECT name, description \
-	FROM public."Playlists" \
-	WHERE name = \'' + name + '\';';
+/*
+ * Run a postgresql query with the function pgQuery(text) and check if there is an error during the execution
+ * of the query. Return the result of the query.
+ */
 
+async function runQuery(query) {
     let result;
     try {
-        result = await pgQuery(PG_request_check);
+        result = await pgQuery(query);
     } catch (errCode) {
         console.log("Error code : " + errCode);
     }
+    return result;
+}
+
+/*
+ * check if a playlist with the name ('name') exist in the database
+ */
+async function playlistExist(name) {
+    let query = {
+        text: 'SELECT name, description FROM public."Playlists" \
+    	WHERE name = $1;',
+        values: [name],
+    }
+
+    let result = await runQuery(query);
 
     if (result.rows.length === 0) {
         return false;
@@ -73,25 +94,26 @@ app.get('/', async function(req, res) {
  * /playlist
  */
 
+//add a new playlist
 app.post('/playlist', async function(req, res) {
     let newPlaylist = req.body;
     let responseBody = {};
 
-    if (!await playlistExist(newPlaylist.name)) {
-        let PG_request = 'INSERT INTO public."Playlists"(name, description) \
-            VALUES (\'' + newPlaylist.name + '\', \'' + newPlaylist.description + '\');'
-
-        let result;
-        try {
-            result = await pgQuery(PG_request);
-        } catch (errCode) {
-            console.log("Error code : " + errCode);
-        }
-        res.status(201);
-        responseBody = newPlaylist;
-    } else {
+    // check if the playlist already exists
+    if (await playlistExist(newPlaylist.name)) {
         res.status(409);
         responseBody.error = "Playlist named : " + newPlaylist.name + " already exist";
+    } else {
+        let query = {
+            text: 'INSERT INTO public."Playlists"(name, description) \
+                VALUES ($1, $2);',
+            values: [newPlaylist.name, newPlaylist.description],
+        }
+
+        let result = await runQuery(query);
+
+        res.status(201);
+        responseBody = newPlaylist;
     }
 
     res.send(responseBody);
@@ -101,46 +123,45 @@ app.post('/playlist', async function(req, res) {
  * /playlist/:playlist_id
  */
 
+//get a playist with the id 'palylist_id'
 app.get('/playlist/:playlist_id', async function(req, res) {
     let playlist_id = req.params.playlist_id;
     let responseBody = {};
 
-    let PG_request_playlist = 'SELECT name, description \
-    FROM public."Playlists" WHERE id=\'' + playlist_id + '\';';
-
-    let result;
-    try {
-        result = await pgQuery(PG_request_playlist);
-    } catch (errCode) {
-        console.log("Error code : " + errCode);
+    //get the name and the description of the playlist needed.
+    let query1 = {
+        text: 'SELECT name, description \
+        FROM public."Playlists" WHERE id= $1;',
+        values: [playlist_id],
     }
 
-    let PG_request_tracks = 'SELECT name, artist, album \
-    FROM public."Tracks", public."Playlist_tracks" \
-    WHERE playlist_id = \'' + playlist_id + '\'';
+    let result1 = await runQuery(query1);
 
-    let anotherResult;
-    try {
-        anotherResult = await pgQuery(PG_request_tracks);
-    } catch (errCode) {
-        console.log("Error code : " + errCode);
+    //get all the tracks within the playlist
+    let query2 = {
+        text: 'SELECT name, artist, album \
+        FROM public."Tracks", public."Playlist_tracks" \
+        WHERE playlist_id = $1',
+        values: [playlist_id],
     }
 
-    if (result.rows.length === 0) {
+    let result2 = await runQuery(query2);
+
+    //if the first result contains any thing it means that the playlist doesn't exist
+    if (result1.rows.length === 0) {
         res.status(404);
         responseBody.error = 'Playlist does not exist';
     } else {
         res.status(200);
-        responseBody = result.rows[0];
-        responseBody.tracks = anotherResult.rows;
+        responseBody = result1.rows[0];
+        responseBody.tracks = result2.rows;
     }
 
-    res.setHeader('Content-Type', 'application/json');
     res.send(responseBody);
 });
 
 
-
+//post a new track in the playlist
 app.post('/playlist/:playlist_id', async function(req, res) {
     let playlist_id = req.params.playlist_id;
     let body = req.body;
@@ -148,52 +169,56 @@ app.post('/playlist/:playlist_id', async function(req, res) {
 
     let responseBody = body;
 
-    let PG_request_insert = '    WITH cte AS( \
-        INSERT INTO public."Tracks"(name, artist, album) \
-        VALUES(\'' + body.name + '\', \'' + body.artist + '\', \'' + body.album + '\') \
-        ON CONFLICT DO NOTHING RETURNING id \
-    ) \
-    SELECT NULL AS result \
-    WHERE EXISTS(SELECT 1 FROM cte) \
-    UNION ALL \
-    SELECT id \
-    FROM public."Tracks" \
-    WHERE name = \'' + body.name + '\' AND artist = \'' + body.artist + '\' AND \
-    album = \'' + body.album + '\' \
-    AND NOT EXISTS (SELECT 1 FROM cte);';
-
-    let result;
-    try {
-        result = await pgQuery(PG_request_insert);
-    } catch (e) {
-        console.log("Error code : " + e);
+    /*
+     * add a new track in the database and return the id of the tracks, and if
+     * the track already exists still return the id of the track.
+     */
+    let query1 = {
+        text: 'WITH cte AS( \
+                INSERT INTO public."Tracks"(name, artist, album) \
+                VALUES($1, $2, $3) \
+                ON CONFLICT DO NOTHING RETURNING id \
+            ) \
+            SELECT NULL AS result \
+            WHERE EXISTS(SELECT 1 FROM cte) \
+            UNION ALL \
+            SELECT id \
+            FROM public."Tracks" \
+                WHERE name = $1 AND artist = $2 AND album = $3 \
+            AND NOT EXISTS (SELECT 1 FROM cte);',
+        values: [body.name, body.artist, body.album],
     }
+
+    let result = await runQuery(query1);
 
     track_id = result.rows[0].result;
 
-    let PG_request_link =
-        'INSERT INTO public.\"Playlist_tracks\"(playlist_id, track_id) \
-    VALUES (' + playlist_id + ' , ' + track_id + ');';
+    //create the link between the playlist an the track
+    let query2 = {
+        text: 'INSERT INTO public."Playlist_tracks"(playlist_id, track_id) \
+            VALUES ($1, $2);',
+        values: [playlist_id, track_id],
+    }
 
     try {
-        await pgQuery(PG_request_link);
+        await pgQuery(query2);
     } catch (errCode) {
         switch (errCode) {
             case 23503:
-                console.log("23503 - Foreign key conflict");
+                console.log('23503 - Foreign key conflict');
                 res.status(404);
                 responseBody = {
                     'error': "Playlist not found"
                 };
                 break;
             case 23505:
-                console.log("23505 - Unique conflict");
+                console.log('23505 - Unique conflict');
                 res.status(409);
                 responseBody = {
                     'error': "Track already in the playlist"
                 };
             default:
-                console.log('default ' + errCode);
+                console.log('Error code : ' + errCode);
         }
     }
 
@@ -206,24 +231,23 @@ app.put('/playlist/:playlist_id', async function(req, res) {
 
     let responseBody = {};
 
-    if (!await playlistExist(newPlaylist.name)) {
-        let PG_request = 'UPDATE public."Playlists" \
-	       SET name=\'' + newPlaylist.name + '\', description=\'' + newPlaylist.description + '\' \
-	          WHERE id=\'' + playlist_id + '\' RETURNING name, description;';
-
-        try {
-            result = await pgQuery(PG_request);
-        } catch (errCode) {
-            console.log('Error code  : ' + errCode);
+    if (await playlistExist(newPlaylist.name)) {
+        res.status(409);
+        responseBody.error = "Playlist named : " + newPlaylist.name + " already exist";
+    } else {
+        let query = {
+            text: 'UPDATE public."Playlists" \
+    	       SET name= $1, description= $2 \
+    	          WHERE id= $3 RETURNING name, description;',
+            values: [newPlaylist.name, newPlaylist.description, playlist_id],
         }
+
+        let result = await runQuery(query);
 
         if (result.rows.length === 0) {
             res.status(404);
             responseBody.error = "Playlist n \°" + playlist_id + " does not found";
         }
-    } else {
-        res.status(409);
-        responseBody.error = "Playlist named : " + newPlaylist.name + " already exist";
     }
     res.send(responseBody);
 });
@@ -232,20 +256,20 @@ app.delete('/playlist/:playlist_id', async function(req, res) {
     let playlist_id = req.params.playlist_id;
     let responseBody = {};
 
-    let PG_request = 'DELETE FROM public."Playlists" \
-    WHERE id=\'' + playlist_id + '\'; \
-    DELETE FROM public."Playlist_tracks" \
-    WHERE playlist_id=\'' + playlist_id + '\';';
-
-    let result;
-    try {
-        result = await pgQuery(PG_request);
-    } catch (errCode) {
-        console.log("Error code : " + errCode);
+    // TODO:
+    let query = {
+        text: 'DELETE FROM public."Playlists" \
+            WHERE id= $1; \
+        DELETE FROM public."Playlist_tracks" \
+            WHERE playlist_id=$1;',
+        values: [playlist_id],
     }
 
+    let result await runQuery(query);
+
     console.log(result[0].rowCount);
-    if (result[0].rowCount === 0) { //number of lines deleted in the playlist table
+    //check the number of lines deleted in the playlist table
+    if (result[0].rowCount === 0) {
         res.status(404);
         responseBody.error = "Playlist n \°" + playlist_id + " does not found";
     } else {
