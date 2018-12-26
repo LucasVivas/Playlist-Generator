@@ -229,12 +229,37 @@ app.put('/playlist/:playlist_id', async function(req, res) {
 });
 
 app.delete('/playlist/:playlist_id', async function(req, res) {
+    let playlist_id = req.params.playlist_id;
+    let responseBody = {};
 
+    let PG_request = 'DELETE FROM public."Playlists" \
+    WHERE id=\'' + playlist_id + '\'; \
+    DELETE FROM public."Playlist_tracks" \
+    WHERE playlist_id=\'' + playlist_id + '\';';
+
+    let result;
+    try {
+        result = await pgQuery(PG_request);
+    } catch (errCode) {
+        console.log("Error code : " + errCode);
+    }
+
+    console.log(result[0].rowCount);
+    if (result[0].rowCount === 0) { //number of lines deleted in the playlist table
+        res.status(404);
+        responseBody.error = "Playlist n \°" + playlist_id + " does not found";
+    } else {
+        res.status(200);
+    }
+
+    res.send(responseBody);
 });
 
 /*
  * /playlist/:playlist_id/:track_id
  */
+
+// IMPORTANT track_id signifie l'emplacement du son dans la playlist
 
 app.get('/playlist/:playlist_id/:track_id', async function(req, res) {
 
