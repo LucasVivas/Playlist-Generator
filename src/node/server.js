@@ -41,6 +41,24 @@ async function pgQuery(text) {
     return result;
 }
 
+async function playlistExist(name) {
+    let PG_request_check = 'SELECT name, description \
+	FROM public."Playlists" \
+	WHERE name = \'' + name + '\';';
+
+    let result;
+    try {
+        result = await pgQuery(PG_request_check);
+    } catch (errCode) {
+        console.log("Error code : " + errCode);
+    }
+
+    if (result.rows.length === 0) {
+        return false;
+    }
+    return true;
+}
+
 app.use(cors());
 app.use(morgan('combined'));
 app.use(express.json());
@@ -56,9 +74,27 @@ app.get('/', async function(req, res) {
  */
 
 app.post('/playlist', async function(req, res) {
-    // INSERT INTO public."Playlists"(
-    // name, description)
-    // VALUES (?, ?);
+    let newPlaylist = req.body;
+    let responseBody = {};
+
+    if (!await playlistExist(newPlaylist.name)) {
+        let PG_request = 'INSERT INTO public."Playlists"(name, description) \
+            VALUES (\'' + newPlaylist.name + '\', \'' + newPlaylist.description + '\');'
+
+        let result;
+        try {
+            result = await pgQuery(PG_request);
+        } catch (errCode) {
+            console.log("Error code : " + errCode);
+        }
+        res.status(201);
+        responseBody = newPlaylist;
+    } else {
+        res.status(409);
+        responseBody.error = "Playlist named : " + newPlaylist.name + " already exist";
+    }
+
+    res.send(responseBody);
 });
 
 /*
@@ -77,7 +113,6 @@ app.get('/playlist/:playlist_id', async function(req, res) {
         result = await pgQuery(PG_request_playlist);
     } catch (errCode) {
         console.log("Error code : " + errCode);
-
     }
 
     let PG_request_tracks = 'SELECT name, artist, album \
@@ -171,18 +206,7 @@ app.put('/playlist/:playlist_id', async function(req, res) {
 
     let responseBody = {};
 
-    let PG_request_check = 'SELECT name, description \
-	FROM public."Playlists" \
-	WHERE name = \'' + newPlaylist.name + '\';';
-
-    let result;
-    try {
-        result = await pgQuery(PG_request_check);
-    } catch (errCode) {
-        console.log("Error code : " + errCode);
-    }
-
-    if (result.rows.length === 0) {
+    if (!await playlistExist(newPlaylist.name)) {
         let PG_request = 'UPDATE public."Playlists" \
 	       SET name=\'' + newPlaylist.name + '\', description=\'' + newPlaylist.description + '\' \
 	          WHERE id=\'' + playlist_id + '\' RETURNING name, description;';
