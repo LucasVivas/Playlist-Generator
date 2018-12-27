@@ -45,7 +45,7 @@ async function pgQuery(text) {
         await client.end();
     }
     return result;
-}
+};
 
 /*
  * Run a postgresql query with the function pgQuery(text) and check if there is an error during the execution
@@ -60,7 +60,7 @@ async function runQuery(query) {
         console.log("Error code : " + errCode);
     }
     return result;
-}
+};
 
 /*
  * check if a playlist with the name ('name') exist in the database
