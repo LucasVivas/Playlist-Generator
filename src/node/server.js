@@ -265,7 +265,7 @@ app.delete('/playlist/:playlist_id', async function(req, res) {
         values: [playlist_id],
     }
 
-    let result await runQuery(query);
+    let result = await runQuery(query);
 
     console.log(result[0].rowCount);
     //check the number of lines deleted in the playlist table
