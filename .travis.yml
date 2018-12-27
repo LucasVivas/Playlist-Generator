@@ -13,8 +13,7 @@ services:
 before_install:
 - sudo apt-get update
 - sudo apt-get --yes install docker-ce
-- npm install -g eslint
-- eslint --init
+- npm install -g eslint eslint-config-airbnb-base eslint-plugin-import
 script:
 - sonar-scanner
 - eslint src/node/server.js
