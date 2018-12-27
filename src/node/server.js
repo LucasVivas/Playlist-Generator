@@ -1,13 +1,9 @@
-/* jshint esversion: 6 */
-
 const express = require('express');
 // const ejs = require('ejs');
 // to use the log of all the request
 const morgan = require('morgan');
 // for cross origin
 const cors = require('cors');
-
-const rootdir = '/home/node/app/';
 
 const app = express();
 
@@ -40,7 +36,7 @@ const pgQuery = async function (text) {
   try {
     result = await client.query(text);
   } catch (err) {
-    throw parseInt(err.code);
+    throw parseInt(err.code, 10);
   } finally {
     await client.end();
   }
@@ -48,8 +44,8 @@ const pgQuery = async function (text) {
 };
 
 /*
- * Run a postgresql query with the function pgQuery(text) and check if there is an error during the execution
- * of the query. Return the result of the query.
+ * Run a postgresql query with the function pgQuery(text) and check if there is
+ * an error during the execution of the query. Return the result of the query.
  */
 
 const runQuery = async function (query) {
@@ -67,8 +63,8 @@ const runQuery = async function (query) {
  */
 const playlistExist = async function playlistExist(name) {
   const query = {
-    text: 'SELECT name, description FROM public."Playlists" \
-    	WHERE name = $1;',
+    text: 'SELECT name, description FROM public."Playlists" '
+    + 'WHERE name = $1;',
     values: [name],
   };
 
@@ -105,12 +101,13 @@ app.post('/playlist', async (req, res) => {
     responseBody.error = `Playlist named : ${newPlaylist.name} already exist`;
   } else {
     const query = {
-      text: 'INSERT INTO public."Playlists"(name, description) \
-                VALUES ($1, $2);',
+      text: 'INSERT INTO public."Playlists"(name, description) '
+      + 'VALUES ($1, $2);',
       values: [newPlaylist.name, newPlaylist.description],
     };
 
-    const result = await runQuery(query);
+    // const result =
+    await runQuery(query);
 
     res.status(201);
     responseBody = newPlaylist;
@@ -125,24 +122,23 @@ app.post('/playlist', async (req, res) => {
 
 // get a playist with the id 'palylist_id'
 app.get('/playlist/:playlist_id', async (req, res) => {
-  const playlist_id = req.params.playlist_id;
+  const playlistId = req.params.playlist_id;
   let responseBody = {};
 
   // get the name and the description of the playlist needed.
   const query1 = {
-    text: 'SELECT name, description \
-        FROM public."Playlists" WHERE id= $1;',
-    values: [playlist_id],
+    text: 'SELECT name, description '
+    + 'FROM public."Playlists" '
+    + 'WHERE id= $1;',
+    values: [playlistId],
   };
 
   const result1 = await runQuery(query1);
 
   // get all the tracks within the playlist
   const query2 = {
-    text: 'SELECT name, artist, album \
-        FROM public."Tracks", public."Playlist_tracks" \
-        WHERE playlist_id = $1',
-    values: [playlist_id],
+    text: 'SELECT name, artist, album FROM public."Tracks", public."Playlist_tracks" WHERE playlist_id = $1',
+    values: [playlistId],
   };
 
   const result2 = await runQuery(query2);
@@ -153,7 +149,8 @@ app.get('/playlist/:playlist_id', async (req, res) => {
     responseBody.error = 'Playlist does not exist';
   } else {
     res.status(200);
-    responseBody = result1.rows[0];
+    // assign the first value of the array rows to responseBody
+    ({ rows: [responseBody] } = result1);
     responseBody.tracks = result2.rows;
   }
 
@@ -163,9 +160,9 @@ app.get('/playlist/:playlist_id', async (req, res) => {
 
 // post a new track in the playlist
 app.post('/playlist/:playlist_id', async (req, res) => {
-  const playlist_id = req.params.playlist_id;
-  const body = req.body;
-  let track_id = -1;
+  const playlistId = req.params.playlist_id;
+  const { body } = req.body;
+  let trackId = -1;
 
   let responseBody = body;
 
@@ -174,30 +171,30 @@ app.post('/playlist/:playlist_id', async (req, res) => {
      * the track already exists still return the id of the track.
      */
   const query1 = {
-    text: 'WITH cte AS( \
-                INSERT INTO public."Tracks"(name, artist, album) \
-                VALUES($1, $2, $3) \
-                ON CONFLICT DO NOTHING RETURNING id \
-            ) \
-            SELECT NULL AS result \
-            WHERE EXISTS(SELECT 1 FROM cte) \
-            UNION ALL \
-            SELECT id \
-            FROM public."Tracks" \
-                WHERE name = $1 AND artist = $2 AND album = $3 \
-            AND NOT EXISTS (SELECT 1 FROM cte);',
+    text: 'WITH cte AS( '
+    + 'INSERT INTO public."Tracks"(name, artist, album) '
+    + 'VALUES($1, $2, $3) '
+    + 'ON CONFLICT DO NOTHING RETURNING id '
+    + ') '
+    + 'SELECT NULL AS result '
+    + 'WHERE EXISTS(SELECT 1 FROM cte) '
+    + 'UNION ALL '
+    + 'SELECT id '
+    + 'FROM public."Tracks" '
+    + 'WHERE name = $1 AND artist = $2 AND album = $3 '
+    + 'AND NOT EXISTS (SELECT 1 FROM cte);',
     values: [body.name, body.artist, body.album],
   };
 
   const result = await runQuery(query1);
 
-  track_id = result.rows[0].result;
+  trackId = result.rows[0].result;
 
   // create the link between the playlist an the track
   const query2 = {
-    text: 'INSERT INTO public."Playlist_tracks"(playlist_id, track_id) \
-            VALUES ($1, $2);',
-    values: [playlist_id, track_id],
+    text: 'INSERT INTO public."Playlist_tracks"(playlist_id, track_id) '
+    + 'VALUES ($1, $2);',
+    values: [playlistId, trackId],
   };
 
   try {
@@ -217,6 +214,7 @@ app.post('/playlist/:playlist_id', async (req, res) => {
         responseBody = {
           error: 'Track already in the playlist',
         };
+        break;
       default:
         console.log(`Error code : ${errCode}`);
     }
