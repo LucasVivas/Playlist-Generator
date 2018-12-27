@@ -13,9 +13,10 @@ services:
 before_install:
 - sudo apt-get update
 - sudo apt-get --yes install docker-ce
+- npm install -g eslint
 script:
 - sonar-scanner
-- npm test
+- eslint src/node/server.js
 deploy:
   provider: heroku
   api_key:
