@@ -220,7 +220,8 @@ app.post('/playlist/:playlist_id', async (req, res) => {
       default:
         console.log(`Error code : ${errCode}`);
     }
-  
+  }
+
   res.send(responseBody);
 });
 
