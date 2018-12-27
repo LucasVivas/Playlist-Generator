@@ -33,7 +33,7 @@ const {
  * passed.
  */
 
-async function pgQuery(text) {
+var pgQuery = async function(text) {
     let client = new Client();
     var result;
     await client.connect();
@@ -52,7 +52,7 @@ async function pgQuery(text) {
  * of the query. Return the result of the query.
  */
 
-async function runQuery(query) {
+var runQuery = async function(query) {
     let result;
     try {
         result = await pgQuery(query);
@@ -65,7 +65,7 @@ async function runQuery(query) {
 /*
  * check if a playlist with the name ('name') exist in the database
  */
-async function playlistExist(name) {
+var playlistExist = async function playlistExist(name) {
     let query = {
         text: 'SELECT name, description FROM public."Playlists" \
     	WHERE name = $1;',
@@ -78,7 +78,7 @@ async function playlistExist(name) {
         return false;
     }
     return true;
-}
+};
 
 app.use(cors());
 app.use(morgan('combined'));
