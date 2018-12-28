@@ -1,3 +1,4 @@
+/* eslint import/no-unresolved: [2, { ignore: ['\.img$'] }] */
 const express = require('express');
 // const ejs = require('ejs');
 // to use the log of all the request
@@ -284,15 +285,18 @@ app.delete('/playlist/:playlist_id', async (req, res) => {
 // IMPORTANT track_id signifie l'emplacement du son dans la playlist
 
 app.get('/playlist/:playlist_id/:track_id', async (req, res) => {
-
+  console.log(req);
+  res.send('/playists');
 });
 
 app.put('/playlist/:playlist_id/:track_id', async (req, res) => {
-
+  console.log(req);
+  res.send('/playists');
 });
 
 app.delete('/playlist/:playlist_id/:track_id', async (req, res) => {
-
+  console.log(req);
+  res.send('/playists');
 });
 
 /*
@@ -300,16 +304,19 @@ app.delete('/playlist/:playlist_id/:track_id', async (req, res) => {
  */
 
 app.get('/playlists', async (req, res) => {
-
+  console.log(req);
+  res.send('/playists');
 });
 
 app.delete('/playlists', async (req, res) => {
-
+  console.log(req);
+  res.send('/playists');
 });
 
 
 app.use((req, res, next) => {
   res.status(404).send('Page introuvable !');
+  console.log(next);
 });
 
 app.listen(process.env.PORT || 8080, () => {
