@@ -224,7 +224,7 @@ app.post('/playlist/:playlist_id', async (req, res) => {
 });
 
 app.put('/playlist/:playlist_id', async (req, res) => {
-  const playlist_id = req.params.playlist_id;
+  const playlistId = req.params.playlist_id;
   const newPlaylist = req.body;
 
   const responseBody = {};
@@ -234,33 +234,33 @@ app.put('/playlist/:playlist_id', async (req, res) => {
     responseBody.error = `Playlist named : ${newPlaylist.name} already exist`;
   } else {
     const query = {
-      text: 'UPDATE public."Playlists" \
-    	       SET name= $1, description= $2 \
-    	          WHERE id= $3 RETURNING name, description;',
-      values: [newPlaylist.name, newPlaylist.description, playlist_id],
+      text: 'UPDATE public."Playlists" '
+      + 'SET name= $1, description= $2 '
+      + 'WHERE id= $3 RETURNING name, description;',
+      values: [newPlaylist.name, newPlaylist.description, playlistId],
     };
 
     const result = await runQuery(query);
 
     if (result.rows.length === 0) {
       res.status(404);
-      responseBody.error = `Playlist n \°${playlist_id} does not found`;
+      responseBody.error = `Playlist n °${playlistId} does not found`;
     }
   }
   res.send(responseBody);
 });
 
 app.delete('/playlist/:playlist_id', async (req, res) => {
-  const playlist_id = req.params.playlist_id;
+  const playlistId = req.params.playlist_id;
   const responseBody = {};
 
   // TODO:
   const query = {
-    text: 'DELETE FROM public."Playlists" \
-            WHERE id= $1; \
-        DELETE FROM public."Playlist_tracks" \
-            WHERE playlist_id=$1;',
-    values: [playlist_id],
+    text: 'DELETE FROM public."Playlists" '
+    + 'WHERE id= $1; '
+    + 'DELETE FROM public."Playlist_tracks" '
+    + 'WHERE playlist_id=$1;',
+    values: [playlistId],
   };
 
   const result = await runQuery(query);
@@ -269,7 +269,7 @@ app.delete('/playlist/:playlist_id', async (req, res) => {
   // check the number of lines deleted in the playlist table
   if (result[0].rowCount === 0) {
     res.status(404);
-    responseBody.error = `Playlist n \°${playlist_id} does not found`;
+    responseBody.error = `Playlist n °${playlistId} does not found`;
   } else {
     res.status(200);
   }
