@@ -23,8 +23,10 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  #install linter
-  - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import mocha chai chai-http
+  #install npm et lib
+  - npm init
+  - npm install eslint eslint-config-airbnb-base eslint-plugin-import
+  - npm install mocha chai chai-http
 install:
   - docker-compose build
 script:
