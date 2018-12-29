@@ -7,10 +7,10 @@ addons:
 dist: trusty
 language: node_js
 node_js:
-- '10'
+  - '10'
 cache: npm
 services:
-- docker
+  - docker
 env:
   - DOCKER_COMPOSE_VERSION=1.4.2
 
@@ -25,10 +25,12 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   #install linter
   - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import
+install:
+  - docker-compose build
 script:
-- sonar-scanner
-- eslint src/node/server.js
-- ./utils/start_logs.sh
+  - sonar-scanner
+  - eslint src/node/server.js
+  - docker-compose up
 # deploy:
 #   provider: heroku
 #   api_key:
