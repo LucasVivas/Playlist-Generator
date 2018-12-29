@@ -12,7 +12,7 @@ cache: npm
 services:
   - docker
 env:
-  - DOCKER_COMPOSE_VERSION=1.4.2
+  - DOCKER_COMPOSE_VERSION=1.17.1
 
 before_install:
   #install docker
@@ -24,7 +24,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   #install linter
-  - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import
+  - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import mocha
 install:
   - docker-compose build
 script:
