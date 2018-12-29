@@ -13,73 +13,74 @@ describe('Playlist', () => {
       .delete('/playlists');
     done();
   });
-});
 
-describe('GET /playlist/{playlist_id}', () => {
-  it('should ', () => {
-    chai.request('http://localhost:8080')
-      .get('/playlist/1')
-      .end((err, res) => {
-        expect(res).to.have.status(40);
-      });
+  describe('GET /playlist/{playlist_id}', () => {
+    it('should ', () => {
+      chai.request('http://localhost:8080')
+        .get('/playlist/1')
+        .end((err, res) => {
+          expect(res).to.have.status(100);
+          done();
+        });
+    });
   });
-});
 
-describe('POST /playlist/{playlist_id}', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('POST /playlist/{playlist_id}', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('PUT /playlist/{playlist_id}', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('PUT /playlist/{playlist_id}', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('DELETE /playlist/{playlist_id}', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('DELETE /playlist/{playlist_id}', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('POST /playlist', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('POST /playlist', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('GET /playlist/{playlist_id}/{track_id}', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('GET /playlist/{playlist_id}/{track_id}', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('PUT /playlist/{playlist_id}/{track_id}', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('PUT /playlist/{playlist_id}/{track_id}', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('DELETE /playlist/{playlist_id}/{track_id}', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('DELETE /playlist/{playlist_id}/{track_id}', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('GET /playlists', () => {
-  it('should ', () => {
-    assert.equal(1 + 1, 2);
+  describe('GET /playlists', () => {
+    it('should ', () => {
+      assert.equal(1 + 1, 2);
+    });
   });
-});
 
-describe('DELETE /playlists', () => {
-  it('should delete every playlists', () => {
-    chai.request('http://localhost:8080')
-      .delete('/playlists')
-      .end((err, res) => {
-        res.should.have.status(404);
-      });
-    assert.equal(1 + 1, 2);
+  describe('DELETE /playlists', () => {
+    it('should delete every playlists', () => {
+      chai.request('http://localhost:8080')
+        .delete('/playlists')
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
   });
 });
