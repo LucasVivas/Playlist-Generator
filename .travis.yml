@@ -30,6 +30,7 @@ install:
 script:
   - sonar-scanner
   - eslint src/node/server.js
+  - mocha test/*
 # deploy:
 #   provider: heroku
 #   api_key:
