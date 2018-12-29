@@ -1,8 +1,27 @@
+process.env.NODE_ENV = 'test';
+
 const assert = require('assert');
+
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+
+chai.use(chaiHttp);
+
+describe('Playlist', () => {
+  beforeEach((done) => {
+    chai.request('http://localhost:8080')
+      .delete('/playlists');
+    done();
+  });
+});
 
 describe('GET /playlist/{playlist_id}', () => {
   it('should ', () => {
-    assert.equal(1 + 1, 2);
+    chai.request('http://localhost:8080')
+      .get('/playlist/1')
+      .end((err, res) => {
+        expect(res).to.have.status(40);
+      });
   });
 });
 
@@ -55,7 +74,12 @@ describe('GET /playlists', () => {
 });
 
 describe('DELETE /playlists', () => {
-  it('should ', () => {
+  it('should delete every playlists', () => {
+    chai.request('http://localhost:8080')
+      .delete('/playlists')
+      .end((err, res) => {
+        res.should.have.status(404);
+      });
     assert.equal(1 + 1, 2);
   });
 });

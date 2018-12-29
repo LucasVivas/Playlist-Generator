@@ -162,10 +162,9 @@ app.get('/playlist/:playlist_id', async (req, res) => {
 // post a new track in the playlist
 app.post('/playlist/:playlist_id', async (req, res) => {
   const playlistId = req.params.playlist_id;
-  const { body } = req.body;
+  const track = req.body;
   let trackId = -1;
-
-  let responseBody = body;
+  let responseBody = track;
 
   /*
      * add a new track in the database and return the id of the tracks, and if
@@ -184,7 +183,7 @@ app.post('/playlist/:playlist_id', async (req, res) => {
     + 'FROM public."Tracks" '
     + 'WHERE name = $1 AND artist = $2 AND album = $3 '
     + 'AND NOT EXISTS (SELECT 1 FROM cte);',
-    values: [body.name, body.artist, body.album],
+    values: [track.name, track.artist, track.album],
   };
 
   const result = await runQuery(query1);
@@ -255,7 +254,6 @@ app.delete('/playlist/:playlist_id', async (req, res) => {
   const playlistId = req.params.playlist_id;
   const responseBody = {};
 
-  // TODO:
   const query = {
     text: 'DELETE FROM public."Playlists" '
     + 'WHERE id= $1; '
@@ -309,7 +307,13 @@ app.get('/playlists', async (req, res) => {
 });
 
 app.delete('/playlists', async (req, res) => {
-  console.log(req);
+  const query = {
+    text: 'TRUNCATE TABLE public."Playlist_tracks", public."Playlists", public."Tracks";',
+    values: [],
+  };
+  const result = await runQuery(query);
+  console.log(result);
+  res.status(200);
   res.send('/playists');
 });
 
