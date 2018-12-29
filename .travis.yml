@@ -11,13 +11,24 @@ node_js:
 cache: npm
 services:
 - docker
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
+
 before_install:
-- sudo apt-get update
-- sudo apt-get --yes install docker-ce
-- npm install -g eslint eslint-config-airbnb-base eslint-plugin-import
+  #install docker
+  - sudo apt-get update
+  - sudo apt-get --yes install docker-ce
+  #install docker-compose
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  #install linter
+  - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import
 script:
 - sonar-scanner
 - eslint src/node/server.js
+- ./utils/start_logs.sh
 # deploy:
 #   provider: heroku
 #   api_key:
