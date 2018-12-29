@@ -24,7 +24,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   #install npm et lib
-  - npm init
   - npm install eslint eslint-config-airbnb-base eslint-plugin-import
   - npm install mocha chai chai-http
 install:
