@@ -56,9 +56,7 @@ describe('Playlist', () => {
         .post('/playlist')
         .query({ name: 'myplaylist', description: 'mydescription' })
         .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(201);
-          }));
+          expect(res).to.have.status(201);
         });
       // Create a conflit because the paylist already exists
       chai.request(server)
