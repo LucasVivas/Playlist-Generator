@@ -33,8 +33,6 @@ describe('Playlist', () => {
         .get('/playlist/1')
       //  .query({ number: 10, divider: 0 })
         .end((err, res) => {
-          console.log(err);
-          console.log(res.statusCode);
           testAsync(done, (() => {
             expect(res).to.have.status(404);
           }));
@@ -105,7 +103,7 @@ describe('Playlist', () => {
       //  .query({ number: 10, divider: 0 })
         .end((err, res) => {
           testAsync(done, (() => {
-            expect(res).to.have.status(40);
+            expect(res).to.have.status(200);
           }));
         });
     });
