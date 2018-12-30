@@ -28,7 +28,7 @@ const appRoutes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'users', component: UserListComponent },
   { path: 'new-user', component: NewUserComponent },
-  { path: '', component: PlaylistViewComponent },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: 'not-found', component: FourOhFourComponent },
   { path: '**', redirectTo: 'not-found' }
 ];

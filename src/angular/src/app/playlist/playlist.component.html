@@ -1,9 +1,10 @@
 <li [ngClass]="{'list-group-item': true}">
+  <img class="img" src="assets/images/{{globalMusicalGenre}}.jpg" alt="{{globalMusicalGenre}}">
   <h3>{{ playlistName }}</h3>
   <h4>{{ description }}</h4>
   <button class="btn btn-sm btn-primary"
-          (click)="onSwitchOn()"
-          [routerLink]="[id]">View</button>
+    (click)="onSwitchOn()"
+    [routerLink]="[id]">View</button>
   <button class="btn btn-sm btn-danger"
-          (click)="onDeletePlaylist(id)">Delete</button>
+    (click)="onDeletePlaylist(id)">Delete</button>
 </li>

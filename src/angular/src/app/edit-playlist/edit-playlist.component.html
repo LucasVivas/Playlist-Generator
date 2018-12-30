@@ -13,6 +13,21 @@
         </label>
         <input type="text" id="description" class="form-control" name="description" ngModel required>
       </div>
+      <div class="form-group">
+        <label for="globalMusicalGenre">Which musical genre is your favourite ?</label>
+        <select id="globalMusicalGenre" class="form-control" name="globalMusicalGenre" ngModel required>
+          <option value="Electro">Electro</option>
+          <option value="Hip hop">Hip hop</option>
+          <option value="Classical">Classical</option>
+          <option value="Blues">Blues</option>
+          <option value="Jazz">Jazz</option>
+          <option value="Folk">Folk</option>
+          <option value="Latin">Latin</option>
+          <option value="Reggae">Reggae</option>
+          <option value="Rock">Rock</option>
+          <option value="Country">Country</option>
+        </select>
+      </div>
       <button class="btn btn-primary" type="submit" [disabled]="f.invalid">Enregistrer</button>
     </form>
   </div>

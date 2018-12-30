@@ -11,17 +11,20 @@ export class PlaylistService {
     {
       id: 1,
       name: 'Chill house',
-      description: 'Relaxing electro playlist'
+      description: 'Relaxing electro playlist',
+      globalMusicalGenre: 'Electro'
     },
     {
       id: 2,
-      name: 'Inde',
-      description: 'For hipsters'
+      name: 'Ghetto soul',
+      description: 'For real gangsters',
+      globalMusicalGenre: 'Hip hop'
     },
     {
       id: 3,
       name: 'Dubstep',
-      description: 'Who likes to party ?'
+      description: 'Who likes to party ?',
+      globalMusicalGenre: 'Electro'
     }
   ];
 
@@ -64,15 +67,17 @@ export class PlaylistService {
       return playlist;
   }
 
-  addPlaylist(name: string, description: string) {
+  addPlaylist(name: string, description: string, globalMusicalGenre: string) {
     const playlistObject = {
       id: 0,
       name: '',
-      description: ''
+      description: '',
+      globalMusicalGenre: ''
     };
     playlistObject.name = name;
     playlistObject.description = description;
-    playlistObject.id = this.playlists[(this.playlists.length - 1)].id + 1;
+    playlistObject.id = this.playlists.length;
+    playlistObject.globalMusicalGenre = globalMusicalGenre;
     this.playlists.push(playlistObject);
     this.emitplaylistSubject();
   }

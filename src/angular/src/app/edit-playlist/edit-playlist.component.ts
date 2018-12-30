@@ -19,7 +19,8 @@ export class EditPlaylistComponent implements OnInit {
   onSubmit(form: NgForm) {
     const name = form.value['name'];
     const description = form.value['description'];
-    this.playlistService.addPlaylist(name, description);
+    const globalMusicalGenre = form.value['globalMusicalGenre'];
+    this.playlistService.addPlaylist(name, description, globalMusicalGenre);
     this.router.navigate(['/playlists']);
   }
 
