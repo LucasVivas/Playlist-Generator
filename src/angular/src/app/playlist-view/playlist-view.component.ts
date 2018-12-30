@@ -48,12 +48,12 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
     this.playlistSubscription.unsubscribe();
   }
 
-  onFetch() {
-    this.playlistService.getplaylistsFromServer();
-  }
-
-  onSave() {
-    this.playlistService.savePlaylistsToServer();
-  }
+  // onFetch() {
+  //   this.playlistService.getPlaylistsFromServer();
+  // }
+  //
+  // onSave() {
+  //   this.playlistService.savePlaylistsToServer();
+  // }
 
 }

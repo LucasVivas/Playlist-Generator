@@ -1,3 +1,14 @@
-<h2>Authentification</h2>
-<button class="btn btn-success" *ngIf="!authStatus" (click)="onSignIn()">Se connecter</button>
-<button class="btn btn-danger" *ngIf="authStatus" (click)="onSignOut()">Se déconnecter</button>
+<div class="jumbotron" style="text-align:center">
+  <h1>Welcome to {{ title }}</h1>
+  <p>
+    Create and listen to your own playlists
+  </p>
+</div>
+<div *ngIf="!authStatus">
+  <h2>Connect with your acount</h2>
+  <button class="btn btn-success"(click)="onSignIn()">Log In</button>
+</div>
+<div *ngIf="authStatus">
+  <h2>Disconnection</h2>
+  <button class="btn btn-danger" (click)="onSignOut()">Log Out</button>
+</div>
