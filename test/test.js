@@ -28,10 +28,9 @@ describe('Playlist', () => {
   });
 
   describe('GET /playlist/{playlist_id}', () => {
-    it('Should ', (done) => {
+    it('Should not find playlist because it doesn\'t exists (error: 404)', (done) => {
       chai.request(server)
         .get('/playlist/1')
-      //  .query({ number: 10, divider: 0 })
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -41,9 +40,35 @@ describe('Playlist', () => {
   });
 
   describe('POST /playlist/{playlist_id}', () => {
-    it('Should ', (done) => {
-      assert.equal(1 + 1, 2);
-      done();
+    it('Should create a playlist (code: 201)', (done) => {
+      chai.request(server)
+        .post('/playlist')
+        .query({ name: 'myplaylist', description: 'mydescription' })
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(201);
+          }));
+        });
+    });
+    it('Should conflict (code: 409)', (done) => {
+      // Create a playlist
+      chai.request(server)
+        .post('/playlist')
+        .query({ name: 'myplaylist', description: 'mydescription' })
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(201);
+          }));
+        });
+      // Create a conflit because the paylist already exists
+      chai.request(server)
+        .post('/playlist')
+        .query({ name: 'myplaylist', description: 'mydescription' })
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(409);
+          }));
+        });
     });
   });
 
