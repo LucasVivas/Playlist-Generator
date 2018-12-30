@@ -7,7 +7,6 @@ const chaiHttp = require('chai-http');
 
 const expect = chai.expect;
 
-const server = 'http://localhost:8080';
 
 chai.use(chaiHttp);
 
@@ -21,6 +20,7 @@ function testAsync(done, fn) {
 }
 
 describe('Playlist', () => {
+  const server = 'http://localhost:8080';
   beforeEach((done) => {
     chai.request(server)
       .delete('/playlists');
@@ -33,6 +33,7 @@ describe('Playlist', () => {
         .get('/playlist/1')
       //  .query({ number: 10, divider: 0 })
         .end((err, res) => {
+          console.log(res.statusCode);
           testAsync(done, (() => {
             expect(res).to.have.status(404);
           }));
