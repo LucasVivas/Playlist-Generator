@@ -10,18 +10,18 @@ export class PlaylistService {
   private playlists = [
     {
       id: 1,
-      name: 'Machine à laver',
-      status: 'éteint'
+      name: 'Chill house',
+      description: 'Relaxing electro playlist'
     },
     {
       id: 2,
-      name: 'Frigo',
-      status: 'allumé'
+      name: 'Inde',
+      description: 'For hipsters'
     },
     {
       id: 3,
-      name: 'Ordinateur',
-      status: 'éteint'
+      name: 'Dubstep',
+      description: 'Who likes to party ?'
     }
   ];
 
@@ -31,29 +31,30 @@ export class PlaylistService {
     this.playlistsSubject.next(this.playlists.slice());
   }
 
-  switchOnAll() {
-      for(let playlist of this.playlists) {
-        playlist.status = 'allumé';
-      }
-      this.emitplaylistSubject();
-  }
+  // switchOnAll() {
+  //     for(let playlist of this.playlists) {
+  //       playlist.description = 'allumé';
+  //     }
+  //     this.emitplaylistSubject();
+  // }
+  //
+  // switchOffAll() {
+  //     for(let playlist of this.playlists) {
+  //       playlist.description = 'éteint';
+  //       this.emitplaylistSubject();
+  //     }
+  // }
+  //
+  // switchOnOne(i: number) {
+  //     this.playlists[i].description = 'allumé';
+  //     this.emitplaylistSubject();
+  // }
+  //
+  // switchOffOne(i: number) {
+  //     this.playlists[i].description = 'éteint';
+  //     this.emitplaylistSubject();
+  // }
 
-  switchOffAll() {
-      for(let playlist of this.playlists) {
-        playlist.status = 'éteint';
-        this.emitplaylistSubject();
-      }
-  }
-
-  switchOnOne(i: number) {
-      this.playlists[i].status = 'allumé';
-      this.emitplaylistSubject();
-  }
-
-  switchOffOne(i: number) {
-      this.playlists[i].status = 'éteint';
-      this.emitplaylistSubject();
-  }
   getPlaylistById(id: number) {
       const playlist = this.playlists.find(
         (s) => {
@@ -63,14 +64,14 @@ export class PlaylistService {
       return playlist;
   }
 
-  addPlaylist(name: string, status: string) {
+  addPlaylist(name: string, description: string) {
     const playlistObject = {
       id: 0,
       name: '',
-      status: ''
+      description: ''
     };
     playlistObject.name = name;
-    playlistObject.status = status;
+    playlistObject.description = description;
     playlistObject.id = this.playlists[(this.playlists.length - 1)].id + 1;
     this.playlists.push(playlistObject);
     this.emitplaylistSubject();

@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class PlaylistContentComponent implements OnInit {
 
   name: string = 'Playlist';
-  status: string = 'Statut';
+  description: string = 'Desciption';
 
   constructor(private playlistService: PlaylistService,
             private route: ActivatedRoute) { }
@@ -18,7 +18,7 @@ export class PlaylistContentComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
     this.name = this.playlistService.getPlaylistById(+id).name;
-    this.status = this.playlistService.getPlaylistById(+id).status;
+    this.description = this.playlistService.getPlaylistById(+id).description;
   }
 
 }

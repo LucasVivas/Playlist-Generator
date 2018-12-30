@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -18,7 +19,9 @@ export class AuthComponent implements OnInit {
     this.authStatus = this.authService.isAuth;
   }
 
-  onSignIn() {
+  onSignIn(form: NgForm) {
+    const username = form.value['username']
+    const password = form.value['password']
     this.authService.signIn().then(
       () => {
         console.log('Sign in successful!');

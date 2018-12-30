@@ -32,18 +32,6 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
     this.playlistService.emitplaylistSubject();
   }
 
-  onAllumer() {
-    this.playlistService.switchOnAll();
-  }
-
-  onEteindre() {
-    if(confirm('Etes-vous sûr de vouloir éteindre tous vos playlists ?')) {
-      this.playlistService.switchOffAll();
-    } else {
-      return null;
-    }
-  }
-
   ngOnDestroy() {
     this.playlistSubscription.unsubscribe();
   }

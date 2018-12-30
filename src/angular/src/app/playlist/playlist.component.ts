@@ -9,7 +9,7 @@ import { PlaylistService } from '../services/playlist.service';
 export class PlaylistComponent {
 
   @Input() playlistName: string;
-  @Input() playlistStatus: string;
+  @Input() description: string;
   @Input() index: number;
   @Input() id: number;
 
@@ -20,24 +20,20 @@ export class PlaylistComponent {
       ngOnInit() {
       }
 
-      getStatus() {
-        return this.playlistStatus;
-      }
-
-      getColor() {
-        if(this.playlistStatus === 'allumé') {
-          return 'green';
-        } else if(this.playlistStatus === 'éteint') {
-          return 'red';
-        }
+      getDescription() {
+        return this.description;
       }
 
       onSwitchOn(){
-        this.playlistService.switchOnOne(this.index);
+
       }
 
       onSwitchOff(){
-        this.playlistService.switchOffOne(this.index);
+        if(confirm('Are you sure you want to delete this playlist ?')) {
+          
+        } else {
+          return null;
+        }
       }
 
 }

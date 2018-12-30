@@ -10,8 +10,6 @@ import { Router } from '@angular/router'
 })
 export class EditPlaylistComponent implements OnInit {
 
-  defaultStatus = 'éteint';
-
   constructor(private playlistService: PlaylistService,
               private router: Router) { }
 
@@ -20,8 +18,8 @@ export class EditPlaylistComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const name = form.value['name'];
-    const status = form.value['status'];
-    this.playlistService.addPlaylist(name, status);
+    const description = form.value['description'];
+    this.playlistService.addPlaylist(name, description);
     this.router.navigate(['/playlists']);
   }
 
