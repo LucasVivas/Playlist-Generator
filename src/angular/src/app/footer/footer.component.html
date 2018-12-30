@@ -1,7 +1,43 @@
-<div class="footer">
+<!-- <div class="footer">
   <nav class="navbar navbar-dark">
     <div class="navbar-expand m-auto navbar-text">
       Made with <i class="fa fa-heart"></i> by <a href="https://twitter.com/beeman_nl">beeman</a>
     </div>
   </nav>
+</div>
+
+<html>
+<head>
+    <title>Player</title>
+	<meta name="author" content="Maint, FreeShare Inc.">
+	<meta name="description" content="Music player created by Maint(FS Corp)">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="http://freeshared.org/css/bootstrap.css">
+	<link rel="stylesheet" href="http://freeshared.org/css/bootstrap.min.css">
+	<script src="http://freeshared.org/js/jquery.js"></script>
+	<script src="http://freeshared.org/js/bootstrap.js"></script>
+	<script src="http://freeshared.org/js/bootstrap.min.js"></script>
+	<script src="http://freeshared.org/js/npm.js"></script>
+</head>
+<body>
+	<br>-->
+<div class="fixed bottom">
+  <div id="footer">
+	<div class="col-md-12">
+		<audio id="audio" preload="auto"></audio>
+    <div style="text-align:center">
+      <div style="color:#B0B0B0; font-size: 1.5em">Nicky Minaj - Anaconda</div>
+		<div class="btn-group">
+			<button onclick="Play('music.mp3','audio');" class="btn btn-custom"><span title="Play" id="play" class="glyphicon glyphicon-play aligned"></span></button>
+			<button onclick="Stop('music.mp3','audio');" class="btn btn-custom"><span title="Stop" id="stop" class="glyphicon glyphicon-stop aligned"></span></button>
+			<button onclick="Restart('music.mp3','audio');" class="btn btn-custom"><span title="Restart" id="restart" class="glyphicon glyphicon-step-backward aligned"></span></button>
+			<button onclick="Backward5('music.mp3','audio');" class="btn btn-custom"><span title="-5 seconds" id="play" class="glyphicon glyphicon-fast-backward aligned"></span></button>
+			<button onclick="Forward5('music.mp3','audio');" class="btn btn-custom"><span title="+5 seconds" id="play" class="glyphicon glyphicon-fast-forward aligned"></span></button>
+			<button onclick="Backward1('music.mp3','audio');" class="btn btn-custom"><span title="-1 second" id="play" class="glyphicon glyphicon-chevron-left aligned"></span></button>
+			<button onclick="Forward1('music.mp3','audio');" class="btn btn-custom"><span title="+1 second" id="play" class="glyphicon glyphicon-chevron-right aligned"></span></button>
+			<button onclick="VolumeUp('music.mp3','audio');" class="btn btn-custom"><span title="Volume Up" id="volumeup" class="glyphicon glyphicon-plus aligned"></span></button>
+			<button onclick="VolumeDown('music.mp3','audio');" class="btn btn-custom"><span title="Volume Down" id="volumedown" class="glyphicon glyphicon-minus aligned"></span></button>
+		</div>
+	</div>
+</div>
 </div>

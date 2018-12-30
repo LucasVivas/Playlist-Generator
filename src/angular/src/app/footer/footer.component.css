@@ -1,13 +1,55 @@
-.fa-heart {
-  color: hotpink;
+/* a wrapper for the paginatior */
+.btn-group-wrap {
+    text-align: center;
 }
 
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: grey;
-   color: white;
-   text-align: right;
+div.btn-group {
+    margin: 0 auto;
+    width: inherit;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a {
+    float: left;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 65px;
+  background-color: #000000;
+}
+.aligned {
+	text-align: center;
+	padding-bottom:28%;
+}
+.aligned_input {
+	text-align: center;
+	padding-bottom:-10%;
+}
+.aligned_text {
+	text-align: center;
+	font-size: 88%;
+}
+.no:hover {
+	background:none;
+} .no:active {
+	background: none;
+}
+#seconds {
+	font-size:10px;
+}
+.btn-custom {
+	background-color: black;
+	color:white;
+	transition-property: background, opacity;
+	transition-duration: 0.2s;
+} .btn-custom:hover, .btn-custom:active, .btn-custom:focus {
+	cursor: pointer;
+	opacity:0.3;
+	color:white;
+	//background-color:white;
 }

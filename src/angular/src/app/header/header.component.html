@@ -1,9 +1,10 @@
-<nav class="navbar navbar-dark bg-dark mb-5">
+<div class="sticky-top">
+  <nav class="navbar navbar-dark bg-dark mb-5">
   <a class="navbar-brand" href="/">Playlist-Generator</a>
   <div class="navbar-expand mr-auto">
     <div class="nav navbar-nav">
       <li routerLinkActive="active"><a [routerLink]="['/auth']">Login</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['/playlists']">Your playlistst</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['/playlists']">Your playlists</a></li>
       <li routerLinkActive="active"><a [routerLink]="['/edit']">New playlist</a></li>
       <li routerLinkActive="active"><a [routerLink]="['/users']">Users</a></li>
     </div>
@@ -22,3 +23,4 @@
     </div>
   </div>
 </nav>
+</div>
