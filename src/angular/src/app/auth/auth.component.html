@@ -21,6 +21,7 @@
     </div>
     <button class="btn btn-success" type="submit" [disabled]="f.invalid">Log In</button>
   </form>
+  <p> <br> No account yet ? <span style="margin-left:1em"> <a routerLink="/new-user"> Create an account </a> </span> </p>
 </div>
 <div *ngIf="authStatus">
   <h2>Disconnection</h2>

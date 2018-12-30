@@ -26,8 +26,8 @@ export class NewUserComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      drinkPreference: ['', Validators.required],
-      hobbies: this.formBuilder.array([])
+      musicalGenre: ['', Validators.required],
+      artists: this.formBuilder.array([])
     });
   }
 
@@ -37,20 +37,20 @@ export class NewUserComponent implements OnInit {
       formValue['firstName'],
       formValue['lastName'],
       formValue['email'],
-      formValue['drinkPreference'],
-      formValue['hobbies'] ? formValue['hobbies'] : []
+      formValue['musicalGenre'],
+      formValue['artists'] ? formValue['artists'] : []
     );
     this.userService.addUser(newUser);
     this.router.navigate(['/users']);
   }
 
-  getHobbies(): FormArray {
-    return this.userForm.get('hobbies') as FormArray;
+  getArtists(): FormArray {
+    return this.userForm.get('artists') as FormArray;
   }
 
-  onAddHobby() {
-    const newHobbyControl = this.formBuilder.control(null, Validators.required);
-    this.getHobbies().push(newHobbyControl);
+  onAddArtist() {
+    const newArtistControl = this.formBuilder.control(null, Validators.required);
+    this.getArtists().push(newArtistControl);
   }
 
 }

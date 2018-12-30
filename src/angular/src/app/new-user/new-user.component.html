@@ -1,31 +1,39 @@
 <div class="col-sm-8 col-sm-offset-2">
   <form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
     <div class="form-group">
-      <label for="firstName">Prénom</label>
+      <label for="firstName">First name</label>
       <input type="text" id="firstName" class="form-control" formControlName="firstName">
     </div>
     <div class="form-group">
-      <label for="lastName">Nom</label>
+      <label for="lastName">Last name</label>
       <input type="text" id="lastName" class="form-control" formControlName="lastName">
     </div>
     <div class="form-group">
-      <label for="email">Adresse e-mail</label>
+      <label for="email">Email dddress</label>
       <input type="text" id="email" class="form-control" formControlName="email">
     </div>
     <div class="form-group">
-      <label for="drinkPreference">Quelle boisson préférez-vous ?</label>
-      <select id="drinkPreference" class="form-control" formControlName="drinkPreference">
-        <option value="jus d\'orange">Jus d'orange</option>
-        <option value="jus de mangue">Jus de mangue</option>
+      <label for="musicalGenre">Which musical genre is your favourite ?</label>
+      <select id="musicalGenre" class="form-control" formControlName="musicalGenre">
+        <option value="Electro">Electro</option>
+        <option value="Hip hop">Hip hop</option>
+        <option value="Classical">Classical</option>
+        <option value="Blues">Blues</option>
+        <option value="Jazz">Jazz</option>
+        <option value="Folk">Folk</option>
+        <option value="Latin">Latin</option>
+        <option value="Reggae">Reggae</option>
+        <option value="Rock">Rock</option>
+        <option value="Country">Country</option>
       </select>
     </div>
-    <div formArrayName="hobbies">
-      <h3>Vos hobbies</h3>
-      <div class="form-group" *ngFor="let hobbyControl of getHobbies().controls; let i = index">
+    <div formArrayName="artists">
+      <h3>Add a favourite artist</h3>
+      <div class="form-group" *ngFor="let artistControl of getArtists().controls; let i = index">
         <input type="text" class="form-control" [formControlName]="i">
       </div>
-      <button type="button" class="btn btn-success" (click)="onAddHobby()">Ajouter un hobby</button>
+      <button type="button" class="btn btn-success" (click)="onAddArtist()">Add</button>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Soumettre</button>
+    <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Submit</button>
   </form>
 </div>
