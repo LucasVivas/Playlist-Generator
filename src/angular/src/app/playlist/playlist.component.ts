@@ -28,9 +28,9 @@ export class PlaylistComponent {
 
       }
 
-      onSwitchOff(){
+      onDeletePlaylist(id: number){
         if(confirm('Are you sure you want to delete this playlist ?')) {
-          
+          this.playlistService.deletePlaylist(id);
         } else {
           return null;
         }

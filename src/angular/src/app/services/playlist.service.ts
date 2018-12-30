@@ -77,6 +77,12 @@ export class PlaylistService {
     this.emitplaylistSubject();
   }
 
+  deletePlaylist(id: number) {
+    const index = this.playlists.indexOf(this.getPlaylistById(id));
+    this.playlists.splice(index,1);
+    this.emitplaylistSubject();
+  }
+
   // savePlaylistsToServer() {
   //   this.httpClient
   //     .put('https://httpclient-demo.firebaseio.com/playlists.json', this.playlists)
