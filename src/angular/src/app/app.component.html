@@ -4,13 +4,11 @@
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
-<app-layout>
+<app-header></app-header>
+<div class="container" style="text-align:center">
+    <div class="col-xs-12">
+      <router-outlet></router-outlet>
+    </div>
+</div>
 
-  <div class="jumbotron" style="text-align:center">
-    <h1>Welcome to {{ title }}</h1>
-    <p>
-      Create and listen to your own playlists
-    </p>
-  </div>
-  <app-tracks></app-tracks>
-</app-layout>
+<!-- <app-footer></app-footer> -->

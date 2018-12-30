@@ -27,10 +27,11 @@ before_install:
   - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import
   - npm init -y
   - npm install mocha chai chai-http
+  - npm install rxjs rxjs-compat
 install:
-  - docker-compose build
 script:
   - sonar-scanner
+  - docker-compose build
   - eslint src/node/server.js
   - mocha test/*
 # deploy:
