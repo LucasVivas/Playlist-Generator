@@ -50,7 +50,7 @@ services:
             POSTGRES_PASSWORD: root
             POSTGRES_DB: playlistdb
         ports:
-            - 5432:5432
+            - 5432
         # volumes:
         #     - "./src/postgresql/data:/var/lib/postgresql/data"
     pgadmin:
