@@ -1,9 +1,11 @@
 <nav class="navbar navbar-dark bg-dark mb-5">
   <a class="navbar-brand" href="/">Playlist-Generator</a>
   <div class="navbar-expand mr-auto">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" href="#">Login</a>
-      <a class="nav-item nav-link" href="#">Sign up</a>
+    <div class="nav navbar-nav">
+      <li routerLinkActive="active"><a [routerLink]="['/auth']">Authentification</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['/playlists']">Playlist</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['/edit']">Nouvelle playlist</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['/users']">Utilisateurs</a></li>
     </div>
   </div>
   <div class="navbar-expand ml-auto navbar-nav">

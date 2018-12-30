@@ -1,0 +1,13 @@
+<li [ngClass]="{'list-group-item': true,
+                'list-group-item-success': playlistStatus === 'allumé',
+                'list-group-item-danger': playlistStatus === 'éteint'}">
+  <h4 [ngStyle]="{color: getColor()}">playlist : {{ playlistName }} -- Statut : {{ getStatus() }}</h4>
+  <a [routerLink]="[id]">Détail</a>
+  <input type="text" class="form-control" [(ngModel)]="playlistName">
+  <button class="btn btn-sm btn-success"
+          (click)="onSwitchOn()"
+          [disabled]="playlistStatus === 'allumé'">Allumer</button>
+  <button class="btn btn-sm btn-danger"
+          (click)="onSwitchOff()"
+          [disabled]="playlistStatus === 'éteint'">Eteindre</button>
+</li>

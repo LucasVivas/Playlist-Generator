@@ -4,13 +4,20 @@
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
-<app-layout>
-
+  <app-header></app-header>
   <div class="jumbotron" style="text-align:center">
     <h1>Welcome to {{ title }}</h1>
     <p>
       Create and listen to your own playlists
     </p>
   </div>
-  <app-tracks></app-tracks>
-</app-layout>
+  <router-outlet></router-outlet>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+
+    </div>
+  </div>
+</div>
