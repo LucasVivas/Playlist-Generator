@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
+  
+
   title = 'Playlist-Generator';
   authStatus: boolean;
 

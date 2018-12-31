@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +11,21 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  authSubscription: Subscription;
+  authStatus: boolean;
+
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.authSubscription = this.authService.authSubject.subscribe(
+      (isAuth: boolean) => {
+        this.authStatus = isAuth;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.authSubscription.unsubscribe();
   }
 
 }

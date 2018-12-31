@@ -1,4 +1,8 @@
+import { Subject } from 'rxjs/Subject';
+
 export class AuthService {
+
+  authSubject = new Subject<boolean>();
 
   isAuth = false;
 
@@ -8,6 +12,7 @@ export class AuthService {
         setTimeout(
           () => {
             this.isAuth = true;
+            this.authSubject.next(this.isAuth);
             resolve(true);
           }, 2000
         );
@@ -17,5 +22,7 @@ export class AuthService {
 
   signOut() {
     this.isAuth = false;
+    this.authSubject.next(this.isAuth);
   }
+
 }
