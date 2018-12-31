@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-  
+
 
   title = 'Playlist-Generator';
   authStatus: boolean;
@@ -31,11 +31,6 @@ export class AuthComponent implements OnInit {
         this.router.navigate(['playlists']);
       }
     );
-  }
-
-  onSignOut() {
-    this.authService.signOut();
-    this.authStatus = this.authService.isAuth;
   }
 
 }

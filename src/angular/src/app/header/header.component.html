@@ -19,7 +19,7 @@
   <div *ngIf="authStatus">
     <div class="navbar-expand ml-auto">
       <div class="nav navbar-nav">
-        <li routerLinkActive="active"><a [routerLink]="['/auth']">Log Out</a></li>
+        <a [routerLink]="['/auth']"><button class="btn btn-danger" (click)="onSignOut()">Log Out</button></a>
       </div>
     </div>
   </div>
