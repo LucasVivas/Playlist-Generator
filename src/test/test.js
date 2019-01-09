@@ -57,7 +57,7 @@ describe('Playlist', () => {
         .post('/playlist')
         .send(playlist)
         .end((err, res) => {
-
+          done();
         });
     });
 
@@ -101,7 +101,7 @@ describe('Playlist', () => {
   describe('DELETE /playlist/{playlist_id}', () => {
     it('Should delete a existing playlist (code: 200)', (done) => {
       chai.request(server)
-        .post('/playlist/1')
+        .post('/playlist')
         .send(playlist);
       chai.request(server)
         .delete('/playlist/1')

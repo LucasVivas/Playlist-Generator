@@ -20,14 +20,14 @@ services:
         ports:
             - 8080:8080
         links:
-            - postgresql
-        #check if postgresql is ready
-        healthcheck:
-            test: ["CMD", "curl", "-f", "postgresql:5432"]
-            interval: 30s
-            timeout: 10s
-            retries: 5
-
+            - mongo
+    mongo:
+        container_name: mongo
+        image: mongo
+        volumes:
+            - ./data:/data/db
+        ports:
+            - "27017:27017"
     angular:
         container_name: projet-web-client
         build:
@@ -39,30 +39,3 @@ services:
             - "/home/node/app/node_modules"
         ports:
             - 4200:4200
-    postgresql:
-        container_name: postgresql
-        build:
-            context: ./src/postgresql
-            dockerfile: Dockerfile.postgres
-        restart: always
-        environment:
-            POSTGRES_USER: root
-            POSTGRES_PASSWORD: root
-            POSTGRES_DB: playlistdb
-        ports:
-            - 5432
-        # volumes:
-        #     - "./src/postgresql/data:/var/lib/postgresql/data"
-    pgadmin:
-        container_name: pgadmin
-        image: fenglc/pgadmin4:latest
-        restart: always
-        ports:
-            - 5050:5050
-        environment:
-            - MAIL_SERVER=postgresql
-            - MAIL_PORT=5432
-            - DEFAULT_USER=root
-            - DEFAULT_PASSWORD=root
-        links:
-            - postgresql

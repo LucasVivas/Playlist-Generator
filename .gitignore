@@ -9,6 +9,7 @@
 
 # dependencies
 /node_modules
+/data
 src/angular/node_modules
 src/postgresql/data
 package.json
