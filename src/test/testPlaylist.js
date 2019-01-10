@@ -1,14 +1,12 @@
 process.env.NODE_ENV = 'test';
 
 const assert = require('assert');
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const expect = chai.expect;
 
 const server = 'http://localhost:8080';
-
 const playlist = { name: 'myPlaylist', description: 'myDescription' };
 
 chai.use(chaiHttp);
@@ -30,6 +28,31 @@ describe('Playlist', () => {
         done();
       });
   });
+  describe('GET /playlists', () => {
+    // it('Should ', (done) => {
+    //   chai.request(server)
+    //     .post('/playlist')
+    //     .send(playlist)
+    //     .end((err, res) => {
+    //       testAsync(done, (() => {
+    //         expect(res).to.have.status(409);
+    //       }));
+    //     });
+    // });
+  });
+
+  describe('DELETE /playlists', () => {
+    it('Should delete every playlists', (done) => {
+      chai.request(server)
+        .delete('/playlists')
+      //  .send({ number: 10, divider: 0 })
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(200);
+          }));
+        });
+    });
+  });
 
   describe('GET /playlist/{playlist_id}', () => {
     it('Should not find playlist because it doesn\'t exists (error: 404)', (done) => {
@@ -44,9 +67,6 @@ describe('Playlist', () => {
     // TODO: another test
   });
 
-  describe('POST /playlist/{playlist_id}', () => {
-    // TODO:
-  });
 
   describe('PUT /playlist/{playlist_id}', () => {
     const newPlaylist = { name: 'myNewPlaylist', description: 'myNewDescription' };
@@ -149,71 +169,6 @@ describe('Playlist', () => {
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(409);
-          }));
-        });
-    });
-  });
-
-  describe('GET /playlist/{playlist_id}/{track_id}', () => {
-    // it('Should ', (done) => {
-    //   chai.request(server)
-    //     .post('/playlist')
-    //     .send(playlist)
-    //     .end((err, res) => {
-    //       testAsync(done, (() => {
-    //         expect(res).to.have.status(409);
-    //       }));
-    //     });
-    // });
-  });
-
-  describe('PUT /playlist/{playlist_id}/{track_id}', () => {
-    // it('Should ', (done) => {
-    //   chai.request(server)
-    //     .post('/playlist')
-    //     .send(playlist)
-    //     .end((err, res) => {
-    //       testAsync(done, (() => {
-    //         expect(res).to.have.status(409);
-    //       }));
-    //     });
-    // });
-  });
-
-  describe('DELETE /playlist/{playlist_id}/{track_id}', () => {
-    // it('Should ', (done) => {
-    //   chai.request(server)
-    //     .post('/playlist')
-    //     .send(playlist)
-    //     .end((err, res) => {
-    //       testAsync(done, (() => {
-    //         expect(res).to.have.status(409);
-    //       }));
-    //     });
-    // });
-  });
-
-  describe('GET /playlists', () => {
-    // it('Should ', (done) => {
-    //   chai.request(server)
-    //     .post('/playlist')
-    //     .send(playlist)
-    //     .end((err, res) => {
-    //       testAsync(done, (() => {
-    //         expect(res).to.have.status(409);
-    //       }));
-    //     });
-    // });
-  });
-
-  describe('DELETE /playlists', () => {
-    it('Should delete every playlists', (done) => {
-      chai.request(server)
-        .delete('/playlists')
-      //  .send({ number: 10, divider: 0 })
-        .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(200);
           }));
         });
     });
