@@ -9,11 +9,6 @@ services:
         user: "node"
         environment:
             - NODE_ENV=production
-            - PGUSER=root
-            - PGPASSWORD=root
-            - PGDATABASE=playlistdb
-            - PGPORT=5432
-            - PGHOST=postgresql
         volumes:
             - "./src/node/server.js:/home/node/app/server.js"
             - "/home/node/app/node_modules"
