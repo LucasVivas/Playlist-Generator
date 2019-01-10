@@ -6,6 +6,12 @@ const morgan = require('morgan');
 // for cross origin
 const cors = require('cors');
 
+const DBASE_NAME = 'Playlist-Generator';
+const collection = 'playlists';
+const MONGO_URL = 'mongodb://mongo:27017';
+
+const MongoClient = require('mongodb').MongoClient;
+
 const app = express();
 
 const playlistExist = async function playlistExist() {
@@ -30,6 +36,12 @@ app.get('/', async (req, res) => {
 app.post('/playlist', async (req, res) => {
   const newPlaylist = req.body;
   let responseBody = {};
+
+  const client = await MongoClient.connect(MONGO_URL, {
+    useNewUrlParser: true,
+  });
+  const db = client.db(DBASE_NAME);
+
 
   // check if the playlist already exists
   if (await playlistExist(newPlaylist.name)) {
