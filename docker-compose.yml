@@ -10,7 +10,7 @@ services:
         environment:
             - NODE_ENV=production
         volumes:
-            - "./src/node/server.js:/home/node/app/server.js"
+            - "./src/node/*:/home/node/app/*"
             - "/home/node/app/node_modules"
         ports:
             - 8080:8080

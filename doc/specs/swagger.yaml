@@ -485,6 +485,8 @@ definitions:
     properties:
       id:
         type: integer
+      mail:
+        type: string
       username:
         type: string
       password:

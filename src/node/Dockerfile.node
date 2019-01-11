@@ -8,7 +8,7 @@ WORKDIR /home/node/app/
 COPY .  ./
 
 RUN npm init -y
-RUN npm install express morgan cors mongodb eslint
+RUN npm install express morgan cors mongoose eslint body-parser
 
 EXPOSE $PORT
 CMD npm run start

@@ -1,18 +1,26 @@
-/* eslint import/no-unresolved: [2, { ignore: ['\.img$'] }] */
 const express = require('express');
-// const ejs = require('ejs');
-// to use the log of all the request
 const morgan = require('morgan');
-// for cross origin
 const cors = require('cors');
-
-const DBASE_NAME = 'Playlist-Generator';
-const collection = 'playlists';
-const MONGO_URL = 'mongodb://mongo:27017';
-
-const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
+app.use(bodyParser.json());
+
+const dbConfig = require('./config/database.config.js');
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect(dbConfig.url, {
+  useNewUrlParser: true,
+}).then(() => {
+  console.log('Successfully connected to the database');
+}).catch((err) => {
+  console.log('Could not connect to the database. Exiting now...', err);
+  process.exit();
+});
+
+require('./routes/user.routes.js')(app);
 
 const playlistExist = async function playlistExist() {
   return false;
@@ -36,12 +44,6 @@ app.get('/', async (req, res) => {
 app.post('/playlist', async (req, res) => {
   const newPlaylist = req.body;
   let responseBody = {};
-
-  const client = await MongoClient.connect(MONGO_URL, {
-    useNewUrlParser: true,
-  });
-  const db = client.db(DBASE_NAME);
-
 
   // check if the playlist already exists
   if (await playlistExist(newPlaylist.name)) {
@@ -163,7 +165,7 @@ app.delete('/playlists', async (req, res) => {
 });
 
 
-app.use((req, res/* , next */) => {
+app.use((req, res, next) => {
   res.status(404).send('Page introuvable !');
   console.log('Page introuvable !!!!!');
 });

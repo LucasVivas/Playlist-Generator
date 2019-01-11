@@ -1,6 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
@@ -8,9 +7,8 @@ const expect = chai.expect;
 
 const server = 'http://localhost:8080';
 
-const user1 = { username: 'myUsername1', password: 'myPassword1' };
-const user2 = { username: 'myUsername2', password: 'myPassword2' };
-const playlist = { name: 'myPlaylist', description: 'myDescription' };
+const user1 = { mail: 'mymail1@mail.fr', username: 'myUsername1', password: 'myPassword1' };
+const user2 = { mail: 'mymail2@mail.fr', username: 'myUsername2', password: 'myPassword2' };
 
 const urlMultiple = '/users';
 const urlSingle = '/user';
