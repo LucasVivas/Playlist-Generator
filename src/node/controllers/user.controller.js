@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  User.remove({})
+  User.deleteMany({})
     .then(() => {
       res.status(200);
       res.send({
@@ -33,8 +33,8 @@ exports.create = (req, res) => {
     });
   }
   const user = new User({
+    _id: req.body.username,
     mail: req.body.mail,
-    username: req.body.username,
     password: req.body.password,
   });
 
@@ -43,6 +43,14 @@ exports.create = (req, res) => {
       res.status(201);
       res.send(data);
     }).catch((err) => {
+      console.log('----------------------------------------');
+      console.log(err);
+      console.log('----------------------------------------');
+      if (err.code === 11000) {
+        return res.status(409).send({
+          message: `Conflict the username "${req.body.username}" already exist.`,
+        });
+      }
       res.status(500).send({
         message: err.message || 'Some error occurred while creating the User.',
       });
@@ -51,13 +59,13 @@ exports.create = (req, res) => {
 
 // find one user
 exports.findOne = (req, res) => {
-  const playlistId = req.params.playlist_id;
-
-  User.findById(playlistId)
+  const userId = req.params.user_id;
+  console.log(`userId : ${userId}`);
+  User.findById(userId)
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: `User not found with id ${playlistId}`,
+          message: `User not found with id ${userId}`,
         });
       }
       res.status(200);
@@ -65,18 +73,18 @@ exports.findOne = (req, res) => {
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
         return res.status(404).send({
-          message: `User not found with id ${playlistId}`,
+          message: `User not found with id ${userId}`,
         });
       }
       return res.status(500).send({
-        message: `Error retrieving user with id ${playlistId}`,
+        message: `Error retrieving user with id ${userId}`,
       });
     });
 };
 
 exports.update = (req, res) => {
-  const playlistId = req.params.playlist_id;
-  const newPlaylist = req.body;
+  const userId = req.params.user_id;
+  const newUser = req.body;
 
   if (!req.body.mail || !req.body.username || !req.body.password) {
     return res.status(400).send({
@@ -85,15 +93,15 @@ exports.update = (req, res) => {
   }
 
   // Find note and update it with the request body
-  User.findByIdAndUpdate(playlistId, {
-    mail: newPlaylist.mail,
-    username: newPlaylist.username,
-    password: newPlaylist.password,
+  User.findByIdAndUpdate(userId, {
+    username: newUser.username,
+    mail: newUser.mail,
+    password: newUser.password,
   }, { new: true })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: `User not found with id ${playlistId}`,
+          message: `User not found with id ${userId}`,
         });
       }
       res.status(200);
@@ -101,23 +109,23 @@ exports.update = (req, res) => {
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
         return res.status(404).send({
-          message: `User not found with id ${playlistId}`,
+          message: `User not found with id ${userId}`,
         });
       }
       return res.status(500).send({
-        message: `Error updating user with id ${playlistId}`,
+        message: `Error updating user with id ${userId}`,
       });
     });
 };
 
 exports.delete = (req, res) => {
-  const playlistId = req.params.playlist_id;
+  const userId = req.params.user_id;
 
-  User.findByIdAndRemove(playlistId)
+  User.findByIdAndRemove(userId)
     .then((note) => {
       if (!note) {
         return res.status(404).send({
-          message: `User not found with id ${playlistId}`,
+          message: `User not found with id ${userId}`,
         });
       }
       res.status(200);
@@ -125,11 +133,11 @@ exports.delete = (req, res) => {
     }).catch((err) => {
       if (err.kind === 'ObjectId' || err.name === 'NotFound') {
         return res.status(404).send({
-          message: `User not found with id ${playlistId}`,
+          message: `User not found with id ${userId}`,
         });
       }
       return res.status(500).send({
-        message: `Could not delete note with id ${playlistId}`,
+        message: `Could not delete note with id ${userId}`,
       });
     });
 };
