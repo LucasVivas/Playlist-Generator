@@ -1,7 +1,7 @@
 const User = require('../models/user.model.js');
 
 exports.findAll = (req, res) => {
-  User.find()
+  User.find({}, { _id: false })
     .then((users) => {
       res.status(200);
       res.send(users);
@@ -32,10 +32,11 @@ exports.create = (req, res) => {
       message: 'Bad User format.',
     });
   }
+  const newUser = req.body;
   const user = new User({
-    _id: req.body.username,
-    mail: req.body.mail,
-    password: req.body.password,
+    username: newUser.username,
+    mail: newUser.mail,
+    password: newUser.password,
   });
 
   user.save()
@@ -43,9 +44,6 @@ exports.create = (req, res) => {
       res.status(201);
       res.send(data);
     }).catch((err) => {
-      console.log('----------------------------------------');
-      console.log(err);
-      console.log('----------------------------------------');
       if (err.code === 11000) {
         return res.status(409).send({
           message: `Conflict the username "${req.body.username}" already exist.`,
@@ -60,8 +58,8 @@ exports.create = (req, res) => {
 // find one user
 exports.findOne = (req, res) => {
   const userId = req.params.user_id;
-  console.log(`userId : ${userId}`);
-  User.findById(userId)
+
+  User.findOne({ username: userId }, { _id: false })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -93,7 +91,7 @@ exports.update = (req, res) => {
   }
 
   // Find note and update it with the request body
-  User.findByIdAndUpdate(userId, {
+  User.findOneAndUpdate({ username: userId }, {
     username: newUser.username,
     mail: newUser.mail,
     password: newUser.password,
@@ -112,8 +110,13 @@ exports.update = (req, res) => {
           message: `User not found with id ${userId}`,
         });
       }
+      if (err.code === 11000) {
+        return res.status(409).send({
+          message: `Conflict the username "${req.body.username}" already exist.`,
+        });
+      }
       return res.status(500).send({
-        message: `Error updating user with id ${userId}`,
+        message: `Error updating user with id ${userId}. Err : ${err.message}`,
       });
     });
 };
@@ -121,7 +124,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const userId = req.params.user_id;
 
-  User.findByIdAndRemove(userId)
+  User.findOneAndRemove({ username: userId })
     .then((note) => {
       if (!note) {
         return res.status(404).send({

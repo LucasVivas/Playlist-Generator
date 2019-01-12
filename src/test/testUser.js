@@ -84,7 +84,7 @@ describe('User', () => {
                 .end((err, res) => {
                   testAsync(done, (() => {
                     expect(res).to.have.status(200);
-                    expect(res.body).to.deep.equal([]);
+                    expect(res.body).to.deep.equal([userJSON1, userJSON2]);
                   }));
                 });
             });
