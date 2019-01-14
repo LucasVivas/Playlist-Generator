@@ -16,16 +16,4 @@ const UserSchema = mongoose.Schema({
 
 });
 
-// UserSchema.virtual('username').get(function () {
-//   return this._id;
-// });
-
-// UserSchema.statics.toApiUserSchema = function (data) {
-//   return data.map(user => ({
-//     username: user.username,
-//     mail: user.mail,
-//     password: user.password,
-//   }));
-// };
-
 module.exports = mongoose.model('User', UserSchema);

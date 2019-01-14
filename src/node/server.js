@@ -21,7 +21,7 @@ mongoose.connect(dbConfig.dockerUrl, {
 });
 
 require('./routes/user.routes.js')(app);
-require('./routes/user.routes.js')(app);
+require('./routes/playlist.routes.js')(app);
 
 app.use(cors());
 app.use(morgan('combined'));

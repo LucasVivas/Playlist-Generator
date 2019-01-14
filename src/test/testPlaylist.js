@@ -9,6 +9,24 @@ const expect = chai.expect;
 const server = 'http://localhost:8080';
 const playlist = { name: 'myPlaylist', description: 'myDescription' };
 
+const userId = 'myUsername';
+const userJSON = { username: userId, mail: 'mymail1@mail.fr', password: 'myPassword' };
+
+const urlMultiple = `/playlists/${userId}`;
+const urlSingle = `/playlist/${userId}`;
+const urlFalseUser = '/playlist/random';
+const urlUserIdParam = '/playlist_id';
+
+const name1 = 'myName1';
+const name2 = 'myName2';
+const description1 = 'myDescription1';
+const description2 = 'myDescription2';
+const genre1 = 'myGenre1';
+const genre2 = 'myGenre2';
+
+const playlistJSON1 = { name: name1, description: description1, genre: genre1 };
+const playlistJSON2 = { name: name2, description: description2, genre: genre2 };
+
 chai.use(chaiHttp);
 
 function testAsync(done, fn) {
@@ -21,31 +39,48 @@ function testAsync(done, fn) {
 }
 
 describe('Playlist', () => {
-  beforeEach((done) => {
+  before((done) => {
     chai.request(server)
-      .delete('/playlists')
+      .post('/user')
+      .send(userJSON)
       .end(() => {
         done();
       });
   });
-  describe('GET /playlists', () => {
-    // it('Should ', (done) => {
-    //   chai.request(server)
-    //     .post('/playlist')
-    //     .send(playlist)
-    //     .end((err, res) => {
-    //       testAsync(done, (() => {
-    //         expect(res).to.have.status(409);
-    //       }));
-    //     });
-    // });
+  beforeEach((done) => {
+    chai.request(server)
+      .delete(urlMultiple)
+      .end(() => {
+        done();
+      });
+  });
+  describe(`GET ${urlMultiple}`, () => {
+    it('Should get an Array with 2 playlist (Code: 200)', (done) => {
+      chai.request(server)
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .post(urlSingle)
+            .send(playlistJSON2)
+            .end(() => {
+              chai.request(server)
+                .get(urlMultiple)
+                .end((err, res) => {
+                  testAsync(done, (() => {
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.deep.equal([playlistJSON1, playlistJSON2]);
+                  }));
+                });
+            });
+        });
+    });
   });
 
-  describe('DELETE /playlists', () => {
+  describe(`DELETE ${urlMultiple}`, () => {
     it('Should delete every playlists', (done) => {
       chai.request(server)
-        .delete('/playlists')
-      //  .send({ number: 10, divider: 0 })
+        .delete(urlMultiple)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(200);
@@ -54,62 +89,34 @@ describe('Playlist', () => {
     });
   });
 
-  describe('GET /playlist/{playlist_id}', () => {
-    it('Should not find playlist because it doesn\'t exists (error: 404)', (done) => {
+  describe(`GET ${urlSingle}${urlUserIdParam}`, () => {
+    it('Should get the playlist (Code: 200)', (done) => {
       chai.request(server)
-        .get('/playlist/1')
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .get(`${urlSingle}/1`)
+            .end((err, res) => {
+              testAsync(done, (() => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.deep.equals(playlistJSON1);
+              }));
+            });
+        });
+    });
+    it('Should not found any playlist (Code: 404)', (done) => {
+      chai.request(server)
+        .get(`${urlSingle}/2`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
           }));
         });
     });
-    // TODO: another test
-  });
-
-
-  describe('PUT /playlist/{playlist_id}', () => {
-    const newPlaylist = { name: 'myNewPlaylist', description: 'myNewDescription' };
-
-    // TODO: everything
-    beforeEach((done) => {
+    it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .post('/playlist')
-        .send(playlist)
-        .end((err, res) => {
-          done();
-        });
-    });
-
-    it('Should modify an existing playlist (code: 200)', (done) => {
-      chai.request(server)
-        .put('/playlist/1')
-        .send(newPlaylist)
-        .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(200);
-          }));
-        });
-    });
-
-    it('Should try to modify a playlist with the name of another one (code: 409)', (done) => {
-      chai.request(server)
-        .post('/playlist')
-        .send(newPlaylist);
-      chai.request(server)
-        .put('/playlist/1')
-        .send(newPlaylist)
-        .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(200);
-          }));
-        });
-    });
-
-    it('Should try to modify a nil playlist (code: 404)', (done) => {
-      chai.request(server)
-        .put('/playlist/2')
-        .send(newPlaylist)
+        .get(`${urlFalseUser}/1`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -118,57 +125,130 @@ describe('Playlist', () => {
     });
   });
 
-  describe('DELETE /playlist/{playlist_id}', () => {
-    it('Should delete a existing playlist (code: 200)', (done) => {
+  describe(`POST ${urlSingle}`, () => {
+    it('Should add a playlist (Code: 201)', (done) => {
       chai.request(server)
-        .post('/playlist')
-        .send(playlist);
-      chai.request(server)
-        .delete('/playlist/1')
-        .send(playlist)
-        .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(200);
-          }));
-        });
-    });
-    it('Should try to delete a nil playlist (code: 404)', (done) => {
-      chai.request(server)
-        .delete('/playlist/1')
-        .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(404);
-          }));
-        });
-    });
-  });
-
-  describe('POST /playlist', () => {
-    it('Should create a playlist (code: 201)', (done) => {
-      chai.request(server)
-        .post('/playlist')
-        .send(playlist)
+        .post(urlSingle)
+        .send(playlistJSON1)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(201);
           }));
         });
     });
-    it('Should conflict (code: 409)', (done) => {
-      // Create a playlist
+    it('Should cannot add a playlist because already exist (Code: 409)', (done) => {
       chai.request(server)
-        .post('/playlist')
-        .send(playlist)
-        .end((err, res) => {
-          expect(res).to.have.status(201);
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .post(urlSingle)
+            .send(playlistJSON1)
+            .end((err, res) => {
+              testAsync(done, (() => {
+                expect(res).to.have.status(409);
+              }));
+            });
         });
-      // Create a conflit because the paylist already exists
+    });
+    it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .post('/playlist')
-        .send(playlist)
+        .get(`${urlFalseUser}/1`)
         .end((err, res) => {
           testAsync(done, (() => {
-            expect(res).to.have.status(409);
+            expect(res).to.have.status(404);
+          }));
+        });
+    });
+  });
+
+  describe(`PUT ${urlSingle}${urlUserIdParam}`, () => {
+    it('Should modify a playlist (Code: 200)', (done) => {
+      chai.request(server)
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .put(`${urlSingle}/1`)
+            .send(playlistJSON2)
+            .end((err, res) => {
+              testAsync(done, (() => {
+                expect(res).to.have.status(200);
+              }));
+            });
+        });
+    });
+    it('Should modify an undefined playlist (Code: 404)', (done) => {
+      chai.request(server)
+        .put(`${urlSingle}/1`)
+        .send(playlistJSON1)
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(404);
+          }));
+        });
+    });
+    it('Should not found any user (Code: 404)', (done) => {
+      chai.request(server)
+        .get(`${urlFalseUser}/1`)
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(404);
+          }));
+        });
+    });
+    it('Should cannot modify a playlist into another who already exist (Code: 409)', (done) => {
+      chai.request(server)
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .post(urlSingle)
+            .send(playlistJSON2)
+            .end(() => {
+              chai.request(server)
+                .put(`${urlSingle}/1`)
+                .send(playlistJSON2)
+                .end((err, res) => {
+                  testAsync(done, (() => {
+                    expect(res).to.have.status(409);
+                  }));
+                });
+            });
+        });
+    });
+  });
+
+  describe(`DELETE ${urlSingle}${urlUserIdParam}`, () => {
+    it('Should delete an playlist (Code: 200)', (done) => {
+      chai.request(server)
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .delete(`${urlSingle}/1`)
+            .end((err, res) => {
+              testAsync(done, (() => {
+                expect(res).to.have.status(200);
+              }));
+            });
+        });
+    });
+    it('Should cannot delete a playlist because doesn\'t exist (Code: 404)', (done) => {
+      chai.request(server)
+        .delete(`${urlSingle}/1`)
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(404);
+          }));
+        });
+    });
+    it('Should not found any user (Code: 404)', (done) => {
+      chai.request(server)
+        .get(`${urlFalseUser}/1`)
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(404);
           }));
         });
     });

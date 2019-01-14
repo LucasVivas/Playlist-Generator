@@ -12,23 +12,23 @@ const expect = chai.expect;
 
 const server = 'http://localhost:8080';
 
-const id1 = 'myUsername1';
-const id2 = 'myUsername2';
+const username1 = 'myUsername1';
+const username2 = 'myUsername2';
 const mail1 = 'mymail1@mail.fr';
 const mail2 = 'mymail2@mail.fr';
 const password1 = 'myPassword1';
 const password2 = 'myPassword2';
 
-const userJSON1 = { username: id1, mail: mail1, password: password1 };
-const userJSON2 = { username: id2, mail: mail2, password: password2 };
+const userJSON1 = { username: username1, mail: mail1, password: password1 };
+const userJSON2 = { username: username2, mail: mail2, password: password2 };
 
 const userSchema1 = new User({
-  _id: id1,
+  _id: username1,
   mail: mail1,
   password: password1,
 });
 const userSchema2 = new User({
-  _id: id2,
+  _id: username2,
   mail: mail2,
   password: password2,
 });
@@ -111,7 +111,7 @@ describe('User', () => {
         .send(userJSON1)
         .end(() => {
           chai.request(server)
-            .get(`${urlSingle}/${id1}`)
+            .get(`${urlSingle}/${username1}`)
             .end((err, res) => {
               testAsync(done, (() => {
                 expect(res).to.have.status(200);
@@ -122,7 +122,7 @@ describe('User', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlSingle}/${id2}`)
+        .get(`${urlSingle}/${username2}`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -166,7 +166,7 @@ describe('User', () => {
         .send(userJSON1)
         .end(() => {
           chai.request(server)
-            .put(`${urlSingle}/${id1}`)
+            .put(`${urlSingle}/${username1}`)
             .send(userJSON2)
             .end((err, res) => {
               testAsync(done, (() => {
@@ -177,7 +177,7 @@ describe('User', () => {
     });
     it('Should modify an undefined user (Code: 404)', (done) => {
       chai.request(server)
-        .put(`${urlSingle}/${id1}`)
+        .put(`${urlSingle}/${username1}`)
         .send(userJSON1)
         .end((err, res) => {
           testAsync(done, (() => {
@@ -195,7 +195,7 @@ describe('User', () => {
             .send(userJSON2)
             .end(() => {
               chai.request(server)
-                .put(`${urlSingle}/${id1}`)
+                .put(`${urlSingle}/${username1}`)
                 .send(userJSON2)
                 .end((err, res) => {
                   testAsync(done, (() => {
@@ -214,7 +214,7 @@ describe('User', () => {
         .send(userJSON1)
         .end(() => {
           chai.request(server)
-            .delete(`${urlSingle}/${id1}`)
+            .delete(`${urlSingle}/${username1}`)
             .end((err, res) => {
               testAsync(done, (() => {
                 expect(res).to.have.status(200);
@@ -222,9 +222,9 @@ describe('User', () => {
             });
         });
     });
-    it('Should cannot add a user because already exist (Code: 404)', (done) => {
+    it('Should cannot delete a user because doesn\'t exist (Code: 404)', (done) => {
       chai.request(server)
-        .delete(`${urlSingle}/${id1}`)
+        .delete(`${urlSingle}/${username1}`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
