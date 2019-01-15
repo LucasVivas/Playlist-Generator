@@ -457,8 +457,6 @@ definitions:
   Track:
     type: object
     properties:
-      id:
-        type: integer
       name:
         type: string
       artist:
@@ -468,30 +466,18 @@ definitions:
   Playlist:
     type: object
     properties:
-      id:
-        type: integer
       name:
         type: string
       description:
         type: string
       genre:
         type: string
-      tracks:
-        type: array
-        items:
-          $ref: '#/definitions/Track'
   User:
     type: object
     properties:
-      id:
-        type: integer
       mail:
         type: string
       username:
         type: string
       password:
         type: string
-      playlists:
-        type: array
-        items:
-          $ref: '#/definitions/Playlist'
