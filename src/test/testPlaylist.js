@@ -7,14 +7,14 @@ const chaiHttp = require('chai-http');
 const expect = chai.expect;
 
 const server = 'http://localhost:8080';
-const playlist = { name: 'myPlaylist', description: 'myDescription' };
 
 const userId = 'myUsername';
 const userJSON = { username: userId, mail: 'mymail1@mail.fr', password: 'myPassword' };
 
 const urlMultiple = `/playlists/${userId}`;
+const urlMultipleFalseUser = '/playlists/random';
 const urlSingle = `/playlist/${userId}`;
-const urlFalseUser = '/playlist/random';
+const urlSingleFalseUser = '/playlist/random';
 const urlUserIdParam = '/playlist_id';
 
 const name1 = 'myName1';
@@ -24,8 +24,12 @@ const description2 = 'myDescription2';
 const genre1 = 'myGenre1';
 const genre2 = 'myGenre2';
 
-const playlistJSON1 = { name: name1, description: description1, genre: genre1 };
-const playlistJSON2 = { name: name2, description: description2, genre: genre2 };
+const playlistJSON1 = {
+  name: name1, description: description1, genre: genre1, owner: userId,
+};
+const playlistJSON2 = {
+  name: name2, description: description2, genre: genre2, owner: userId,
+};
 
 chai.use(chaiHttp);
 
@@ -75,6 +79,15 @@ describe('Playlist', () => {
             });
         });
     });
+    it('Should not found any user (Code: 404)', (done) => {
+      chai.request(server)
+        .get(`${urlMultipleFalseUser}`)
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(404);
+          }));
+        });
+    });
   });
 
   describe(`DELETE ${urlMultiple}`, () => {
@@ -84,6 +97,15 @@ describe('Playlist', () => {
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(200);
+          }));
+        });
+    });
+    it('Should not found any user (Code: 404)', (done) => {
+      chai.request(server)
+        .delete(urlMultipleFalseUser)
+        .end((err, res) => {
+          testAsync(done, (() => {
+            expect(res).to.have.status(404);
           }));
         });
     });
@@ -116,7 +138,7 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlFalseUser}/1`)
+        .get(`${urlSingleFalseUser}/1`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -153,7 +175,7 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlFalseUser}/1`)
+        .get(`${urlSingleFalseUser}/1`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -190,7 +212,7 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlFalseUser}/1`)
+        .get(`${urlSingleFalseUser}/1`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -245,7 +267,7 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlFalseUser}/1`)
+        .get(`${urlSingleFalseUser}/1`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);

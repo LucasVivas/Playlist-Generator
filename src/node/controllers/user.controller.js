@@ -1,7 +1,7 @@
 const User = require('../models/user.model.js');
 
 exports.findAll = (req, res) => {
-  User.find({}, { _id: false })
+  User.find({}, { _id: false, playlists: false })
     .then((users) => {
       res.status(200);
       res.send(users);
@@ -34,6 +34,7 @@ exports.create = (req, res) => {
   }
   const newUser = req.body;
   const user = new User({
+    _id: newUser.username,
     username: newUser.username,
     mail: newUser.mail,
     password: newUser.password,
@@ -59,7 +60,7 @@ exports.create = (req, res) => {
 exports.findOne = (req, res) => {
   const userId = req.params.user_id;
 
-  User.findOne({ username: userId }, { _id: false })
+  User.findOne({ username: userId }, { _id: false, playlists: false })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
