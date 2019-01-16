@@ -4,8 +4,9 @@
         "func-names": "off",
         "prefer-destructuring": "off",
          "import/no-unresolved": "off",
+         "import/no-extraneous-dependencies": "off",
          "consistent-return": "off",
-         "no-undef": "off" 
+         "no-undef": "off"
 
     }
 

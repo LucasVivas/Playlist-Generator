@@ -22,16 +22,16 @@ const password2 = 'myPassword2';
 const userJSON1 = { username: username1, mail: mail1, password: password1 };
 const userJSON2 = { username: username2, mail: mail2, password: password2 };
 
-const userSchema1 = new User({
-  _id: username1,
-  mail: mail1,
-  password: password1,
-});
-const userSchema2 = new User({
-  _id: username2,
-  mail: mail2,
-  password: password2,
-});
+// const userSchema1 = new User({
+//   _id: username1,
+//   mail: mail1,
+//   password: password1,
+// });
+// const userSchema2 = new User({
+//   _id: username2,
+//   mail: mail2,
+//   password: password2,
+// });
 
 const urlMultiple = '/users';
 const urlSingle = '/user';
