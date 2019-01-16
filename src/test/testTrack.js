@@ -55,7 +55,7 @@ describe('Track', () => {
       .end(() => {
         chai.request(server)
           .post(`/playlist/${userId}`)
-          .send(userJSON)
+          .send(playlistJSON)
           .end(() => {
             done();
           });

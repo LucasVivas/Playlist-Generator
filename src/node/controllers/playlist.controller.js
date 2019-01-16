@@ -1,4 +1,3 @@
-const User = require('../models/user.model.js');
 const Playlist = require('../models/playlist.model.js');
 
 // Retrieve and return all playlists from the database.

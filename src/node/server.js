@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const dbConfig = require('./config/database.config.js');
 
@@ -22,6 +23,7 @@ mongoose.connect(dbConfig.dockerUrl, {
 
 require('./routes/user.routes.js')(app);
 require('./routes/playlist.routes.js')(app);
+require('./routes/track.routes.js')(app);
 
 app.use(cors());
 app.use(morgan('combined'));
