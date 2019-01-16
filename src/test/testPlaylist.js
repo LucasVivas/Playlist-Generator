@@ -14,7 +14,7 @@ const urlMultiple = `/playlists/${userId}`;
 const urlMultipleFalseUser = '/playlists/random';
 const urlSingle = `/playlist/${userId}`;
 const urlSingleFalseUser = '/playlist/random';
-const urlUserIdParam = '/playlist_id';
+const urlPlaylistIdParam = '/playlist_id';
 
 const name1 = 'myName1';
 const name2 = 'myName2';
@@ -24,10 +24,10 @@ const genre1 = 'myGenre1';
 const genre2 = 'myGenre2';
 
 const playlistJSON1 = {
-  name: name1, description: description1, genre: genre1, owner: userId,
+  name: name1, description: description1, genre: genre1,
 };
 const playlistJSON2 = {
-  name: name2, description: description2, genre: genre2, owner: userId,
+  name: name2, description: description2, genre: genre2,
 };
 
 chai.use(chaiHttp);
@@ -110,7 +110,7 @@ describe('Playlist', () => {
     });
   });
 
-  describe(`GET ${urlSingle}${urlUserIdParam}`, () => {
+  describe(`GET ${urlSingle}${urlPlaylistIdParam}`, () => {
     it('Should get the playlist (Code: 200)', (done) => {
       chai.request(server)
         .post(urlSingle)
@@ -184,7 +184,7 @@ describe('Playlist', () => {
     });
   });
 
-  describe(`PUT ${urlSingle}${urlUserIdParam}`, () => {
+  describe(`PUT ${urlSingle}${urlPlaylistIdParam}`, () => {
     it('Should modify a playlist (Code: 200)', (done) => {
       chai.request(server)
         .post(urlSingle)
@@ -247,7 +247,7 @@ describe('Playlist', () => {
     });
   });
 
-  describe(`DELETE ${urlSingle}${urlUserIdParam}`, () => {
+  describe(`DELETE ${urlSingle}${urlPlaylistIdParam}`, () => {
     it('Should delete an playlist (Code: 200)', (done) => {
       chai.request(server)
         .post(urlSingle)

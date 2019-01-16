@@ -9,8 +9,11 @@ const PlaylistSchema = mongoose.Schema({
   owner: { type: String, required: true },
 }, { versionKey: false });
 
+PlaylistSchema.index({ name: 1, owner: 1 }, { unique: true });
+
 PlaylistSchema.options.toJSON = {
   transform(doc, ret) {
+    delete ret.owner;
     delete ret._id;
     delete ret.__v;
   },

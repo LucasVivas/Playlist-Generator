@@ -1,13 +1,42 @@
 process.env.NODE_ENV = 'test';
 
-const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const expect = chai.expect;
 
 const server = 'http://localhost:8080';
-const playlist = { name: 'myPlaylist', description: 'myDescription' };
+
+const userId = 'myUsername';
+const userJSON = { username: userId, mail: 'mymail1@mail.fr', password: 'myPassword' };
+
+const playlistId = 'myPlaylist';
+const playlistJSON = {
+  name: playlistId, description: 'myDescription', genre: 'myGenre', owner: userId,
+};
+
+const urlMultiple = `/tracks/${userId}/${playlistId}`;
+const urlMultipleFalseUser = `/tracks/random/${playlistId}`;
+const urlMultipleFalsePlaylist = `/tracks/${userId}/random`;
+const urlSingle = `/track/${userId}/${playlistId}`;
+const urlSingleFalseUser = `/track/random/${playlistId}`;
+const urlSingleFalsePlaylist = `/track/${userId}/random`;
+const urlUserIdParam = '/playlist_id';
+
+const name1 = 'myName1';
+const name2 = 'myName2';
+const artist1 = 'myArtist1';
+const artist2 = 'myArtist2';
+const time1 = 10;
+const time2 = 20;
+
+const trackJSON1 = {
+  name: name1, artist: artist1, genre: genre1, owner: userId,
+};
+const trackJSON2 = {
+  name: name2, artist: artist2, genre: genre2, owner: userId,
+};
+
 
 chai.use(chaiHttp);
 
