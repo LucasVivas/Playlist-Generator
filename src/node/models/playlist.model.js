@@ -41,4 +41,41 @@ PlaylistSchema.statics.deleteUserPlaylists = async function (userId) {
   return res;
 };
 
+PlaylistSchema.statics.getUserPlaylistWithId = async function (userId, playlistId) {
+  await userExist(userId);
+  const res = await this.findOne({ owner: userId, name: playlistId });
+  return res;
+};
+
+PlaylistSchema.statics.addUserPlaylist = async function (userId, newPlaylist) {
+  await userExist(userId);
+  const playlist = new this({
+    _id: userId + newPlaylist.name,
+    name: newPlaylist.name,
+    description: newPlaylist.description,
+    genre: newPlaylist.genre,
+    owner: userId,
+  });
+
+  const res = await playlist.save();
+  return res;
+};
+
+PlaylistSchema.statics.updateUserPlaylist = async function (userId, playlistId, newPlaylist) {
+  await userExist(userId);
+  const res = await this.findOneAndUpdate({ name: playlistId, owner: userId }, {
+    name: newPlaylist.name,
+    description: newPlaylist.description,
+    genre: newPlaylist.genre,
+    owner: userId,
+  }, { new: true });
+  return res;
+};
+
+PlaylistSchema.statics.deleteUserPlaylist = async function (userId, playlistId) {
+  await userExist(userId);
+  const res = await this.findOneAndRemove({ name: playlistId, owner: userId });
+  return res;
+};
+
 module.exports = mongoose.model('Playlist', PlaylistSchema);

@@ -126,8 +126,8 @@ exports.delete = (req, res) => {
   const userId = req.params.user_id;
 
   User.findOneAndRemove({ username: userId })
-    .then((note) => {
-      if (!note) {
+    .then((user) => {
+      if (!user) {
         return res.status(404).send({
           message: `User not found with id ${userId}`,
         });
@@ -141,7 +141,7 @@ exports.delete = (req, res) => {
         });
       }
       return res.status(500).send({
-        message: `Could not delete note with id ${userId}`,
+        message: `Could not delete user with id ${userId}`,
       });
     });
 };

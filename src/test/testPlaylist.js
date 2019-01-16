@@ -118,7 +118,7 @@ describe('Playlist', () => {
         .send(playlistJSON1)
         .end(() => {
           chai.request(server)
-            .get(`${urlSingle}/1`)
+            .get(`${urlSingle}/${name1}`)
             .end((err, res) => {
               testAsync(done, (() => {
                 expect(res).to.have.status(200);
@@ -138,7 +138,7 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlSingleFalseUser}/1`)
+        .get(`${urlSingleFalseUser}/${name1}`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -175,7 +175,8 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlSingleFalseUser}/1`)
+        .post(`${urlSingleFalseUser}`)
+        .send(playlistJSON1)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -191,7 +192,7 @@ describe('Playlist', () => {
         .send(playlistJSON1)
         .end(() => {
           chai.request(server)
-            .put(`${urlSingle}/1`)
+            .put(`${urlSingle}/${name1}`)
             .send(playlistJSON2)
             .end((err, res) => {
               testAsync(done, (() => {
@@ -202,7 +203,7 @@ describe('Playlist', () => {
     });
     it('Should modify an undefined playlist (Code: 404)', (done) => {
       chai.request(server)
-        .put(`${urlSingle}/1`)
+        .put(`${urlSingle}/${name1}`)
         .send(playlistJSON1)
         .end((err, res) => {
           testAsync(done, (() => {
@@ -212,11 +213,17 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlSingleFalseUser}/1`)
-        .end((err, res) => {
-          testAsync(done, (() => {
-            expect(res).to.have.status(404);
-          }));
+        .post(urlSingle)
+        .send(playlistJSON1)
+        .end(() => {
+          chai.request(server)
+            .put(`${urlSingleFalseUser}/${name1}`)
+            .send(playlistJSON2)
+            .end((err, res) => {
+              testAsync(done, (() => {
+                expect(res).to.have.status(404);
+              }));
+            });
         });
     });
     it('Should cannot modify a playlist into another who already exist (Code: 409)', (done) => {
@@ -229,7 +236,7 @@ describe('Playlist', () => {
             .send(playlistJSON2)
             .end(() => {
               chai.request(server)
-                .put(`${urlSingle}/1`)
+                .put(`${urlSingle}/${name1}`)
                 .send(playlistJSON2)
                 .end((err, res) => {
                   testAsync(done, (() => {
@@ -248,7 +255,7 @@ describe('Playlist', () => {
         .send(playlistJSON1)
         .end(() => {
           chai.request(server)
-            .delete(`${urlSingle}/1`)
+            .delete(`${urlSingle}/${name1}`)
             .end((err, res) => {
               testAsync(done, (() => {
                 expect(res).to.have.status(200);
@@ -258,7 +265,7 @@ describe('Playlist', () => {
     });
     it('Should cannot delete a playlist because doesn\'t exist (Code: 404)', (done) => {
       chai.request(server)
-        .delete(`${urlSingle}/1`)
+        .delete(`${urlSingle}/${name1}`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
@@ -267,7 +274,7 @@ describe('Playlist', () => {
     });
     it('Should not found any user (Code: 404)', (done) => {
       chai.request(server)
-        .get(`${urlSingleFalseUser}/1`)
+        .delete(`${urlSingleFalseUser}/${name1}`)
         .end((err, res) => {
           testAsync(done, (() => {
             expect(res).to.have.status(404);
