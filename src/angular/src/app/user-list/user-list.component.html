@@ -1,11 +1,6 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let user of users">
-   <h3>{{ user.username }} {{ user.password }}</h3>
+   <h3>{{ user.username }}</h3>
     <p>{{ user.mail }}</p>
-    <!-- <p>This user prefers to listen to {{ user.musicalGenre }}</p>
-    <p *ngIf="user.artists && user.artists.length > 0">
-      His favourite artists are :
-      <span *ngFor="let artist of user.artists">{{ artist }} - </span> -->
-    <!-- </p> -->
   </li>
 </ul>

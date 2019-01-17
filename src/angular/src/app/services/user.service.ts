@@ -51,4 +51,19 @@ export class UserService {
       );
   }
 
+  getUsers() {
+    this.httpClient
+      .get('http://localhost:8080/users/')
+      .subscribe(
+        (users) => {
+          this.users = users;
+          console.log('User list successfully accessed !');
+        },
+        (error) => {
+          console.log('Erreur ! : ');
+          console.log(error);
+        }
+      );
+  }
+
 }
