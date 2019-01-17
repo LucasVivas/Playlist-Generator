@@ -6,17 +6,14 @@ import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
-  private users: User[] = [
-    new User('acasanova',
-      'alexandre.casanova--franger@etu.u-bordeaux.fr',
-      'password'),
-
-    new User(
-      'lvivas',
-      'lucas.vivas@etu.u-bordeaux.fr',
-      'password')
-  ];
+  private users: User[] = [];
   userSubject = new Subject<User[]>();
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+      // 'Authorization': 'my-auth-token'
+    })
+  };
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,21 +21,16 @@ export class UserService {
     this.userSubject.next(this.users.slice());
   }
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-      // 'Authorization': 'my-auth-token'
-    })
-  };
-
   getUsers() {
     this.httpClient
       .get('http://localhost:8080/users/', this.httpOptions)
       .subscribe(
-        (users) => {
-          this.users = users;
+        (newUsers: User[]) => {
+          this.users = newUsers;
+          this.emitUsers();
           console.log('User got !');
-          console.log(users);
+          console.log(newUsers);
+          console.log(this.users);
         },
         (error) => {
           console.log('Erreur ! : ');
@@ -48,12 +40,12 @@ export class UserService {
   }
 
   addUser(user: User) {
-    this.users.push(user);
     this.emitUsers();
     this.httpClient
       .post('http://localhost:8080/user/', user, this.httpOptions)
       .subscribe(
-        () => {
+        (user: User) => {
+          console.log(user);
           console.log('User added !');
         },
         (error) => {
