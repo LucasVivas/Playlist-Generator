@@ -21,6 +21,7 @@ import { AuthGuard } from './services/auth-guard.service';
 import { PlaylistService } from './services/playlist.service';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
+import { TrackService } from './services/track.service';
 import { TrackComponent } from './track/track.component';
 import { AddTrackComponent } from './add-track/add-track.component';
 //import { TrackListComponent } from './track-list/track-list.component';
@@ -69,6 +70,7 @@ const appRoutes: Routes = [
     AuthService,
     AuthGuard,
     UserService,
+    TrackService
   ],
   bootstrap: [AppComponent]
 })

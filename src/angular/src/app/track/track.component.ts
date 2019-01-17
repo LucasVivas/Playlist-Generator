@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { TrackService } from '../services/track.service';
 
 @Component({
   selector: 'app-track',
@@ -10,47 +11,27 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class TrackComponent {
 
-  @Input() trackName: string;
+  @Input() id: number;
+  @Input() name: string;
   @Input() artist: string;
-  @Input() duration: string;
+  @Input() time: string;
   @Input() index: number;
 
-  trackSubject = new Subject<any[]>();
-  tracks: any[];
-
-      constructor() { }
+      constructor(public trackService: TrackService) { }
 
       ngOnInit() {
       }
 
-      getDuration() {
-        return this.duration;
+      gettime() {
+        return this.time;
       }
 
-      deleteTrack(id: number) {
-        const index = this.tracks.indexOf(this.getTrackById(id));
-        this.tracks.splice(index,1);
-      }
-
-      getTrackById(id: number) {
-          const tracks = this.tracks.find(
-            (s) => {
-              return s.id === id;
-            }
-          );
-          return tracks;
-      }
-
-      addPlaylist(trackName: string, artist: string, duration: string){
-        const trackObject = {
-          trackName: '',
-          artist: '',
-          duration: ''
-        };
-        trackObject.trackName = trackName;
-        trackObject.artist = artist;
-        trackObject.duration = duration;
-        this.tracks.push(trackObject);
+      onDeleteTrack(id: number){
+        if(confirm('Are you sure you want to delete this track ?')) {
+          this.trackService.deleteTrack(id);
+        } else {
+          return null;
+        }
       }
 
 }
