@@ -12,9 +12,8 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   getSongOnSpotify(name, artist) {
-
     this.httpClient
-      .get('https://api.spotify.com/v1/search?q=track%3Atiger%20album%3Aarrival%20artist%3Aabba&type=track', this.httpOptions)
+      .get('https://api.spotify.com/v1/search?q=track%3A' + name + '%20artist%3A' + artist + '&type=track', this.httpOptions)
       .subscribe(
         (newUsers) => {
           console.log('User got !');
