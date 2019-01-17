@@ -5,7 +5,7 @@
       <app-playlist  *ngFor="let playlist of playlists; let i = index"
                      [playlistName]="playlist.name"
                      [description]="playlist.description"
-                     [globalMusicalGenre]="playlist.globalMusicalGenre"
+                     [genre]="playlist.genre"
                      [index]="i"
                      [id]="playlist.id"></app-playlist>
     </ul>

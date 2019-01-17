@@ -47,17 +47,17 @@ export class PlaylistService {
     return playlist;
   }
 
-  addPlaylist(name: string, description: string, globalMusicalGenre: string) {
+  addPlaylist(name: string, description: string, genre: string) {
     const playlistObject = {
       id: 0,
       name: '',
       description: '',
-      globalMusicalGenre: ''
+      genre: ''
     };
     playlistObject.name = name;
     playlistObject.description = description;
     playlistObject.id = this.playlists.length;
-    playlistObject.globalMusicalGenre = globalMusicalGenre;
+    playlistObject.genre = genre;
     this.playlists.push(playlistObject);
     // this.savePlaylistsToServer(user_id);
     this.emitplaylistSubject();
@@ -70,9 +70,14 @@ export class PlaylistService {
     this.emitplaylistSubject();
   }
 
-  savePlaylistsToServer(user_id: string) {
+  addPlaylistToServer(user_id: string, name: string, description: string, genre: string) {
+    let playlist = {
+      name: name,
+      description: description,
+      genre: genre,
+    }
     this.httpClient
-      .put('http://localhost:8080/playlists/' + user_id, this.playlists)
+      .post('http://localhost:8080/playlist/' + user_id, playlist)
       .subscribe(
         () => {
           console.log('Enregistrement terminé !');

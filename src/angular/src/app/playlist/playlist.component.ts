@@ -10,7 +10,7 @@ export class PlaylistComponent {
 
   @Input() playlistName: string;
   @Input() description: string;
-  @Input() globalMusicalGenre: string;
+  @Input() genre: string;
   @Input() index: number;
   @Input() id: number;
 

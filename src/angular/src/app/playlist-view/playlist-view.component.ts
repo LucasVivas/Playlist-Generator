@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class PlaylistViewComponent implements OnInit, OnDestroy {
 
   playlists: any[];
+  userId: string;
   playlistSubscription: Subscription;
   authSubscription: Subscription;
 
@@ -26,13 +27,13 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
   constructor(private playlistService: PlaylistService, private authService: AuthService) { }
 
   ngOnInit() {
-    let userId = this.authService.userAuth;
+    this.userId = this.authService.userAuth;
     this.authSubscription = this.authService.userAuthSubject.subscribe(
       (username) => {
-        userId = username;
+        this.userId = username;
       }
     );
-    this.playlistService.getplaylistsFromServer(userId);
+    this.playlistService.getplaylistsFromServer(this.userId);
     this.playlistSubscription = this.playlistService.playlistsSubject.subscribe(
       (playlists: any[]) => {
         this.playlists = playlists;
