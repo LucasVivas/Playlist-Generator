@@ -26,14 +26,14 @@ before_install:
   #install npm et lib
   - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import rxjs rxjs-compat
   - npm init -y
-  - npm install mocha chai chai-http
+  - npm install mocha chai chai-http mongoose
 install:
 script:
   - sonar-scanner
   - docker-compose build
   - docker-compose up -d
   - eslint src/node/server.js
-  - mocha test/*
+  - mocha --exit src/test/*
 # deploy:
 #   provider: heroku
 #   api_key:

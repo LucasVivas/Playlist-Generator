@@ -37,7 +37,7 @@ app.get('/', async (req, res) => {
 
 // IMPORTANT track_id signifie l'emplacement du son dans la playlist
 
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).send('Page introuvable !');
 });
 
