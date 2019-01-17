@@ -15,31 +15,27 @@ export class PlaylistService {
     })
   };
 
-  private playlists = [
-    {
-      id: 1,
-      name: 'Chill house',
-      description: 'Relaxing electro playlist',
-      globalMusicalGenre: 'Electro'
-    },
-    {
-      id: 2,
-      name: 'Ghetto soul',
-      description: 'For real gangsters',
-      globalMusicalGenre: 'Hip hop'
-    },
-    {
-      id: 3,
-      name: 'Dubstep',
-      description: 'Who likes to party ?',
-      globalMusicalGenre: 'Electro'
-    }
-  ];
+  private playlists = [];
 
   constructor(private httpClient: HttpClient) { }
 
   emitplaylistSubject() {
     this.playlistsSubject.next(this.playlists.slice());
+  }
+
+  getplaylistsFromServer(user_id: string) {
+    this.httpClient
+      .get<any[]>('http://localhost:8080/playlists/' + user_id, this.httpOptions)
+      .subscribe(
+        (response: any[]) => {
+          this.playlists = response;
+          this.emitplaylistSubject();
+        },
+        (error) => {
+          console.log('Erreur ! : ');
+          console.log(error);
+        }
+      );
   }
 
   getPlaylistById(id: number) {
@@ -86,20 +82,4 @@ export class PlaylistService {
         }
       );
   }
-
-
-  getplaylistsFromServer(user_id: string) {
-    this.httpClient
-      .get<any[]>('http://localhost:8080/playlists/' + user_id)
-      .subscribe(
-        (response) => {
-          this.playlists = response;
-          this.emitplaylistSubject();
-        },
-        (error) => {
-          console.log('Erreur ! : ' + error);
-        }
-      );
-  }
-
 }

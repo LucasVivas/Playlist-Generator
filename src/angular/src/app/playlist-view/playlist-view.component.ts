@@ -26,11 +26,13 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
   constructor(private playlistService: PlaylistService, private authService: AuthService) { }
 
   ngOnInit() {
+    let userId = this.authService.userAuth;
     this.authSubscription = this.authService.userAuthSubject.subscribe(
-      (userId: string) => {
-        this.playlistService.getplaylistsFromServer(userId);
+      (username) => {
+        userId = username;
       }
     );
+    this.playlistService.getplaylistsFromServer(userId);
     this.playlistSubscription = this.playlistService.playlistsSubject.subscribe(
       (playlists: any[]) => {
         this.playlists = playlists;
@@ -43,13 +45,4 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
     this.playlistSubscription.unsubscribe();
     this.authSubscription.unsubscribe();
   }
-
-  // onFetch() {
-  //   this.playlistService.getPlaylistsFromServer();
-  // }
-  //
-  // onSave() {
-  //   this.playlistService.savePlaylistsToServer();
-  // }
-
 }
