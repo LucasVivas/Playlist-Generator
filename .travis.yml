@@ -33,7 +33,7 @@ script:
   - docker-compose build
   - docker-compose up -d
   - eslint src/node/server.js
-  - mocha src/test/*
+  - mocha --exit src/test/*
 # deploy:
 #   provider: heroku
 #   api_key:
