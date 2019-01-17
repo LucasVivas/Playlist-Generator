@@ -26,7 +26,7 @@ before_install:
   #install npm et lib
   - npm install -g eslint eslint-config-airbnb-base eslint-plugin-import rxjs rxjs-compat
   - npm init -y
-  - npm install mocha chai chai-http
+  - npm install mocha chai chai-http mongoose
 install:
 script:
   - sonar-scanner
