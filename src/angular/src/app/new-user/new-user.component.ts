@@ -14,8 +14,8 @@ export class NewUserComponent implements OnInit {
   userForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService,
-              private router: Router) { }
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,28 +23,19 @@ export class NewUserComponent implements OnInit {
 
   initForm() {
     this.userForm = this.formBuilder.group({
-      // firstName: ['', Validators.required],
-      // lastName: ['', Validators.required],
       username: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      // musicalGenre: ['', Validators.required],
-      // artists: this.formBuilder.array([])
     });
   }
 
   onSubmitForm() {
     const formValue = this.userForm.value;
     const newUser = new User(
-      // formValue['firstName'],
-      // formValue['lastName'],
       formValue['username'],
       formValue['mail'],
       formValue['password'],
-      // formValue['musicalGenre'],
-      // formValue['artists'] ? formValue['artists'] : []
     );
-    console.log(newUser);
     this.userService.addUser(newUser);
     this.router.navigate(['/users']);
   }
