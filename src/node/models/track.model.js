@@ -47,24 +47,25 @@ const playlistExist = async function (userId, playlistId) {
     });
 };
 
-// TODO:
-TrackSchema.statics.getUserPlaylists = async function (userId) {
+
+TrackSchema.statics.getPlaylistTracks = async function (userId, playlistId) {
   await userExist(userId);
-  const res = await this.find({ owner: userId });
+  await playlistExist(userId, playlistId);
+  const res = await this.find({ owner: userId, playlist: playlistId });
   return res;
 };
 
-// TODO:
-TrackSchema.statics.deleteUserPlaylists = async function (userId) {
-  const res = await this.deleteMany({ owner: userId });
+TrackSchema.statics.deletePlaylistTracks = async function (userId, playlistId) {
   await userExist(userId);
+  await playlistExist(userId, playlistId);
+  const res = await this.deleteMany({ owner: userId, playlist: playlistId });
   return res;
 };
 
-// TODO:
-TrackSchema.statics.getUserPlaylistWithId = async function (userId, playlistId) {
+TrackSchema.statics.getPlaylistTrackWithId = async function (userId, playlistId, trackId) {
   await userExist(userId);
-  const res = await this.findOne({ owner: userId, name: playlistId });
+  await playlistExist(userId, playlistId);
+  const res = await this.findOne({ name: trackId, owner: userId, playlist: playlistId });
   return res;
 };
 
@@ -80,6 +81,26 @@ TrackSchema.statics.addPlaylistTrack = async function (userId, playlistId, newTr
   });
 
   const res = await track.save();
+  return res;
+};
+
+TrackSchema.statics.updatePlaylistTrack = async function (userId, playlistId, trackId, newTrack) {
+  await userExist(userId);
+  await playlistExist(userId, playlistId);
+  const res = await this.findOneAndUpdate({ name: trackId, owner: userId, playlist: playlistId }, {
+    name: newTrack.name,
+    artist: newTrack.artist,
+    time: newTrack.time,
+    owner: userId,
+    playlist: playlistId,
+  }, { new: true });
+  return res;
+};
+
+TrackSchema.statics.deletePlaylistTrack = async function (userId, playlistId, trackId) {
+  await userExist(userId);
+  await playlistExist(userId, playlistId);
+  const res = await this.findOneAndRemove({ name: trackId, owner: userId, playlist: playlistId });
   return res;
 };
 
