@@ -1,11 +1,19 @@
 import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class PlaylistService {
 
   playlistsSubject = new Subject<any[]>();
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+      // 'Authorization': 'my-auth-token'
+    })
+  };
 
   private playlists = [
     {
@@ -87,7 +95,6 @@ export class PlaylistService {
         (response) => {
           this.playlists = response;
           this.emitplaylistSubject();
-          console.log(response);
         },
         (error) => {
           console.log('Erreur ! : ' + error);

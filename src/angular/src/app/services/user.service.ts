@@ -29,8 +29,6 @@ export class UserService {
           this.users = newUsers;
           this.emitUsers();
           console.log('User got !');
-          console.log(newUsers);
-          console.log(this.users);
         },
         (error) => {
           console.log('Erreur ! : ');
@@ -44,7 +42,6 @@ export class UserService {
       .post('http://localhost:8080/user/', user, this.httpOptions)
       .subscribe(
         (user: User) => {
-          console.log(user);
           console.log('User added !');
         },
         (error) => {

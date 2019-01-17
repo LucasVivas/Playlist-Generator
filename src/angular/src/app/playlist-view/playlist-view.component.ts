@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PlaylistService } from '../services/playlist.service';
+import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,6 +12,7 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
 
   playlists: any[];
   playlistSubscription: Subscription;
+  authSubscription: Subscription;
 
   lastUpdate = new Promise((resolve, reject) => {
     const date = new Date();
@@ -21,11 +23,14 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
     );
   });
 
-  constructor(private playlistService: PlaylistService) { }
+  constructor(private playlistService: PlaylistService, private authService: AuthService) { }
 
   ngOnInit() {
-    // TODO: alexlebg
-    this.PlaylistService = getplaylistsFromServer();
+    this.authSubscription = this.authService.userAuthSubject.subscribe(
+      (userId: string) => {
+        this.playlistService.getplaylistsFromServer(userId);
+      }
+    );
     this.playlistSubscription = this.playlistService.playlistsSubject.subscribe(
       (playlists: any[]) => {
         this.playlists = playlists;
@@ -36,6 +41,7 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.playlistSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
   }
 
   // onFetch() {
