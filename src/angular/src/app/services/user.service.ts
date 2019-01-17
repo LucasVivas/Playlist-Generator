@@ -39,13 +39,14 @@ export class UserService {
     this.users.push(user);
     this.emitUsers();
     this.httpClient
-      .post('http://node:8080/user/', user, this.httpOptions)
+      .post('http://localhost:8080/user/', user, this.httpOptions)
       .subscribe(
         () => {
           console.log('User added !');
         },
         (error) => {
-          console.log('Erreur ! : ' + error);
+          console.log('Erreur ! : ');
+          console.log(error);
         }
       );
   }

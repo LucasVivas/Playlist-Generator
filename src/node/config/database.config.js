@@ -1,4 +1,4 @@
 module.exports = {
-  dockerUrl: 'mongodb://mongo:27017/Playlist-Generator',
-  testUrl: 'mongodb://localhost:27017/Playlist-Generator',
+  dockerUrl: 'mongodb://root12:root12@ds159634.mlab.com:59634/playlist-generator',
+  testUrl: 'mongodb://root12:root12@ds159634.mlab.com:59634/playlist-generator',
 };

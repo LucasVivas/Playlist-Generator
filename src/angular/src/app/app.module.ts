@@ -23,7 +23,7 @@ import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { TrackComponent } from './track/track.component';
 import { AddTrackComponent } from './add-track/add-track.component';
-import { TrackListComponent } from './track-list/track-list.component';
+//import { TrackListComponent } from './track-list/track-list.component';
 
 const appRoutes: Routes = [
   { path: 'playlists', canActivate: [AuthGuard], component: PlaylistViewComponent },
@@ -55,7 +55,7 @@ const appRoutes: Routes = [
     FooterComponent,
     TrackComponent,
     AddTrackComponent,
-    TrackListComponent
+  //  TrackListComponent
   ],
   imports: [
     BrowserModule,

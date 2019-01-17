@@ -44,6 +44,7 @@ export class NewUserComponent implements OnInit {
       // formValue['musicalGenre'],
       // formValue['artists'] ? formValue['artists'] : []
     );
+    console.log(newUser);
     this.userService.addUser(newUser);
     this.router.navigate(['/users']);
   }
