@@ -40,7 +40,6 @@ export class UserService {
   }
 
   addUser(user: User) {
-    this.emitUsers();
     this.httpClient
       .post('http://localhost:8080/user/', user, this.httpOptions)
       .subscribe(
@@ -54,4 +53,18 @@ export class UserService {
         }
       );
   }
+  deleteUser(userId: String) {
+    this.httpClient
+      .delete('http://localhost:8080/user/' + userId, this.httpOptions)
+      .subscribe(
+        () => {
+          console.log('User deleted !');
+        },
+        (error) => {
+          console.log('Erreur ! : ');
+          console.log(error);
+        }
+      );
+  }
+
 }

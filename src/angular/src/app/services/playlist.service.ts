@@ -35,12 +35,12 @@ export class PlaylistService {
   }
 
   getPlaylistById(id: number) {
-      const playlist = this.playlists.find(
-        (s) => {
-          return s.id === id;
-        }
-      );
-      return playlist;
+    const playlist = this.playlists.find(
+      (s) => {
+        return s.id === id;
+      }
+    );
+    return playlist;
   }
 
   addPlaylist(name: string, description: string, globalMusicalGenre: string) {
@@ -61,14 +61,14 @@ export class PlaylistService {
 
   deletePlaylist(id: number) {
     const index = this.playlists.indexOf(this.getPlaylistById(id));
-    this.playlists.splice(index,1);
+    this.playlists.splice(index, 1);
     // this.savePlaylistsToServer(user_id);
     this.emitplaylistSubject();
   }
 
   savePlaylistsToServer(user_id: string) {
     this.httpClient
-      .put('node/playlists/' + user_id, this.playlists)
+      .put('http://localhost:8080/playlists/' + user_id, this.playlists)
       .subscribe(
         () => {
           console.log('Enregistrement terminé !');
@@ -81,17 +81,18 @@ export class PlaylistService {
 
 
   getplaylistsFromServer(user_id: string) {
-   this.httpClient
-    .get<any[]>('node/playlists/' + user_id)
-    .subscribe(
-      (response) => {
-        this.playlists = response;
-        this.emitplaylistSubject();
-      },
-      (error) => {
-        console.log('Erreur ! : ' + error);
-      }
-    );
+    this.httpClient
+      .get<any[]>('http://localhost:8080/playlists/' + user_id)
+      .subscribe(
+        (response) => {
+          this.playlists = response;
+          this.emitplaylistSubject();
+          console.log(response);
+        },
+        (error) => {
+          console.log('Erreur ! : ' + error);
+        }
+      );
   }
 
 }

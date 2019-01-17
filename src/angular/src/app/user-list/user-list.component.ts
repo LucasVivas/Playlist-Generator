@@ -20,8 +20,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.userSubscription = this.userService.userSubject.subscribe(
       (users: User[]) => {
         this.users = users;
-        console.log(users);
-        console.log(this.users);
       }
     );
     this.userService.emitUsers();
