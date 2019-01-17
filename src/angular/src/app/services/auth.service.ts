@@ -6,7 +6,7 @@ export class AuthService {
 
   isAuth = false;
 
-  signIn() {
+  signIn(username, password) {
     return new Promise(
       (resolve, reject) => {
         setTimeout(

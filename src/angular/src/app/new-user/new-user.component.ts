@@ -23,22 +23,26 @@ export class NewUserComponent implements OnInit {
 
   initForm() {
     this.userForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      musicalGenre: ['', Validators.required],
-      artists: this.formBuilder.array([])
+      // firstName: ['', Validators.required],
+      // lastName: ['', Validators.required],
+      username: ['', Validators.required],
+      mail: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      // musicalGenre: ['', Validators.required],
+      // artists: this.formBuilder.array([])
     });
   }
 
   onSubmitForm() {
     const formValue = this.userForm.value;
     const newUser = new User(
-      formValue['firstName'],
-      formValue['lastName'],
-      formValue['email'],
-      formValue['musicalGenre'],
-      formValue['artists'] ? formValue['artists'] : []
+      // formValue['firstName'],
+      // formValue['lastName'],
+      formValue['username'],
+      formValue['mail'],
+      formValue['password'],
+      // formValue['musicalGenre'],
+      // formValue['artists'] ? formValue['artists'] : []
     );
     this.userService.addUser(newUser);
     this.router.navigate(['/users']);

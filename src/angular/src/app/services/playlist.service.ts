@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
-//import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PlaylistService {
@@ -28,35 +28,11 @@ export class PlaylistService {
     }
   ];
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   emitplaylistSubject() {
     this.playlistsSubject.next(this.playlists.slice());
   }
-
-  // switchOnAll() {
-  //     for(let playlist of this.playlists) {
-  //       playlist.description = 'allumé';
-  //     }
-  //     this.emitplaylistSubject();
-  // }
-  //
-  // switchOffAll() {
-  //     for(let playlist of this.playlists) {
-  //       playlist.description = 'éteint';
-  //       this.emitplaylistSubject();
-  //     }
-  // }
-  //
-  // switchOnOne(i: number) {
-  //     this.playlists[i].description = 'allumé';
-  //     this.emitplaylistSubject();
-  // }
-  //
-  // switchOffOne(i: number) {
-  //     this.playlists[i].description = 'éteint';
-  //     this.emitplaylistSubject();
-  // }
 
   getPlaylistById(id: number) {
       const playlist = this.playlists.find(
@@ -79,40 +55,43 @@ export class PlaylistService {
     playlistObject.id = this.playlists.length;
     playlistObject.globalMusicalGenre = globalMusicalGenre;
     this.playlists.push(playlistObject);
+    // this.savePlaylistsToServer(user_id);
     this.emitplaylistSubject();
   }
 
   deletePlaylist(id: number) {
     const index = this.playlists.indexOf(this.getPlaylistById(id));
     this.playlists.splice(index,1);
+    // this.savePlaylistsToServer(user_id);
     this.emitplaylistSubject();
   }
 
-  // savePlaylistsToServer() {
-  //   this.httpClient
-  //     .put('https://httpclient-demo.firebaseio.com/playlists.json', this.playlists)
-  //     .subscribe(
-  //       () => {
-  //         console.log('Enregistrement terminé !');
-  //       },
-  //       (error) => {
-  //         console.log('Erreur ! : ' + error);
-  //       }
-  //     );
-  // }
-  //
-  // getplaylistsFromServer() {
-  // this.httpClient
-  //   .get<any[]>('https://httpclient-demo.firebaseio.com/playlists.json')
-  //   .subscribe(
-  //     (response) => {
-  //       this.playlists = response;
-  //       this.emitplaylistSubject();
-  //     },
-  //     (error) => {
-  //       console.log('Erreur ! : ' + error);
-  //     }
-  //   );
-  // }
+  savePlaylistsToServer(user_id: string) {
+    this.httpClient
+      .put('node/playlists/' + user_id, this.playlists)
+      .subscribe(
+        () => {
+          console.log('Enregistrement terminé !');
+        },
+        (error) => {
+          console.log('Erreur ! : ' + error);
+        }
+      );
+  }
+
+
+  getplaylistsFromServer(user_id: string) {
+   this.httpClient
+    .get<any[]>('node/playlists/' + user_id)
+    .subscribe(
+      (response) => {
+        this.playlists = response;
+        this.emitplaylistSubject();
+      },
+      (error) => {
+        console.log('Erreur ! : ' + error);
+      }
+    );
+  }
 
 }

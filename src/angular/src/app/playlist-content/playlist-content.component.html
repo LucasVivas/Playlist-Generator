@@ -1,3 +1,17 @@
 <h2>{{ name }}</h2>
 <p>Description : {{ description }}</p>
+
+<div class="col-xs-12">
+  <ul class="list-group">
+    <ul class="list-group">
+      <app-track  *ngFor="let track of tracks; let i = index"
+                     [trackName]="track.trackName"
+                     [artist]="track.artist"
+                     [duration]="track.duration"
+                     [index]="i"
+                     [id]="track.id"></app-track>
+    </ul>
+  </ul>
+</div>
+
 <a routerLink="/playlists">Back to playlists</a>

@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="form-group">
+        <label for="trackName">
+          Track name
+        </label>
+        <input type="text" id="trackName" class="form-control" name="trackName" ngModel required>
+      </div>
+      <div class="form-group">
+        <label for="artist">
+          Artist
+        </label>
+        <input type="text" id="artist" class="form-control" name="artist" ngModel required>
+      </div>
+      <div class="form-group">
+        <label for="duration">
+          Track duration
+        </label>
+        <input type="text" id="duration" class="form-control" name="duration" ngModel required>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="f.invalid">Enregistrer</button>
+    </form>
+  </div>
+</div>

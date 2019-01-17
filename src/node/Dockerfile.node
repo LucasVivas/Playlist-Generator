@@ -9,6 +9,6 @@ COPY .  ./
 
 RUN npm init -y
 RUN npm install express morgan cors mongoose eslint body-parser
-
+RUN npm install -g mongoose
 EXPOSE $PORT
 CMD npm run start

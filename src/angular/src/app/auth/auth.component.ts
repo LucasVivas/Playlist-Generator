@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-
-
   title = 'Playlist-Generator';
   authStatus: boolean;
 
@@ -24,7 +22,7 @@ export class AuthComponent implements OnInit {
   onSignIn(form: NgForm) {
     const username = form.value['username']
     const password = form.value['password']
-    this.authService.signIn().then(
+    this.authService.signIn(username, password).then(
       () => {
         console.log('Sign in successful!');
         this.authStatus = this.authService.isAuth;

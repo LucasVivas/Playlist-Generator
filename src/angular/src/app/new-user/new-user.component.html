@@ -1,18 +1,26 @@
 <div class="col-sm-8 col-sm-offset-2">
   <form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="firstName">First name</label>
       <input type="text" id="firstName" class="form-control" formControlName="firstName">
     </div>
     <div class="form-group">
       <label for="lastName">Last name</label>
       <input type="text" id="lastName" class="form-control" formControlName="lastName">
+    </div> -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" class="form-control" formControlName="username">
     </div>
     <div class="form-group">
-      <label for="email">Email dddress</label>
-      <input type="text" id="email" class="form-control" formControlName="email">
+      <label for="mail">Email dddress</label>
+      <input type="text" id="mail" class="form-control" formControlName="mail">
     </div>
     <div class="form-group">
+      <label for="password">Password</label>
+      <input type="text" id="password" class="form-control" formControlName="password">
+    </div>
+    <!-- <div class="form-group">
       <label for="musicalGenre">Which musical genre is your favourite ?</label>
       <select id="musicalGenre" class="form-control" formControlName="musicalGenre">
         <option value="Electro">Electro</option>
@@ -33,7 +41,7 @@
         <input type="text" class="form-control" [formControlName]="i">
       </div>
       <button type="button" class="btn btn-success" (click)="onAddArtist()">Add</button>
-    </div>
+    </div> -->
     <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Submit</button>
   </form>
 </div>
