@@ -25,7 +25,7 @@ export class PlaylistViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // TODO: alexlebg
-    this.PlaylistService = getplaylistsFromServer();
+    this.playlistService = getPlaylistsFromServer();
     this.playlistSubscription = this.playlistService.playlistsSubject.subscribe(
       (playlists: any[]) => {
         this.playlists = playlists;

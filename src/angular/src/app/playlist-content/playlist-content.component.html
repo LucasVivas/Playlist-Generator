@@ -1,13 +1,13 @@
-<h2>{{ name }}</h2>
+<h2>{{ playlistName }}</h2>
 <p>Description : {{ description }}</p>
 
 <div class="col-xs-12">
   <ul class="list-group">
     <ul class="list-group">
       <app-track  *ngFor="let track of tracks; let i = index"
-                     [trackName]="track.trackName"
+                     [name]="track.name"
                      [artist]="track.artist"
-                     [duration]="track.duration"
+                     [time]="track.time"
                      [index]="i"
                      [id]="track.id"></app-track>
     </ul>

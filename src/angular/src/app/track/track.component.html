@@ -1,6 +1,7 @@
 <li [ngClass]="{'list-group-item': true}">
-  <p>{{ trackName }}</p>
-  <p>{{ duration }}</p>
+  <p>{{ name }}</p>
+  <p>{{ artist }}</p>
+  <p>{{ time }}</p>
   <button class="btn btn-sm btn-danger"
-    (click)="onDeleteSong(id)">Delete</button>
+    (click)="onDeleteTrack(id)">Delete</button>
 </li>

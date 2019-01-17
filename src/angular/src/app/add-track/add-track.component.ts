@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'
-import { TrackComponent } from '../track/track.component'
+import { TrackService } from '../services/track.service'
 import { Router } from '@angular/router'
 
 @Component({
@@ -10,17 +10,17 @@ import { Router } from '@angular/router'
 })
 export class AddTrackComponent implements OnInit {
 
-  constructor(private trackComponent: TrackComponent,
+  constructor(private trackService: TrackService,
               private router: Router) { }
 
   ngOnInit() {
   }
 
   onSubmit(form: NgForm) {
-    const trackName = form.value['trackName'];
+    const name = form.value['name'];
     const artist = form.value['artist'];
-    const duration = form.value['duration'];
-    this.trackComponent.addPlaylist(trackName, artist, duration);
+    const time = form.value['time'];
+    this.trackService.addTrack(name, artist, time);
     this.router.navigate(['add']);
   }
 
